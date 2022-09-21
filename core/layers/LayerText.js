@@ -1,8 +1,17 @@
 import Layer from "./Layer";
 
 import {text2Ellipsis} from "../utils/draw";
+import {createElement} from "../utils/util";
 
 export default class LayerText extends Layer {
+    static create(ctx, props) {
+        return createElement(LayerText, {
+            ctx,
+            children: [],
+            ...props,
+        });
+    }
+
     constructor(props) {
         super(props);
 
@@ -28,7 +37,6 @@ export default class LayerText extends Layer {
         let { left, top, width, height } = this;
         let x = 0;
         let y = top + height / 2;
-        debugger;
 
         ctx.save();
 
@@ -57,11 +65,12 @@ export default class LayerText extends Layer {
         const fontWeight = this.style.fontWeight || this.defaultStyle.fontWeight;
 
         ctx.font = [fontWeight, fontSize, fontFamily].join(' ');
-        ctx.fillText(this._textEllipsis, x, y + this.padding.top);
+        ctx.fillText(this.textEllipsis, x, y + this.padding.top);
         ctx.restore();
     }
 
     renderChildren() {
-        this.drawText(this.textEllipsis);
+
+        this.drawText();
     }
 }

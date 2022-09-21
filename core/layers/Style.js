@@ -67,22 +67,42 @@ export default class Style extends StaticLayout {
         }
     }
 
+    renderSelf() {
+
+    }
+
+    preRender() {}
+
+    postRender() {}
+
+    sortAndRender(children) {
+        // 必须clone， 要不然siblings的顺序也被sort了
+        const sortedLayer = [...(children || [])].sort((prev, next) => prev.zIndex - next.zIndex);
+
+        sortedLayer.forEach(child => {
+            child.render();
+        });
+    }
+
     renderChildren() {
         if (!this.children?.length) {
             return;
         }
 
-        this.children.sort((prev, next) => prev.zIndex - next.zIndex).forEach(child => {
-            child.render();
-        });
+        this.sortAndRender(this.children);
     }
 
     render() {
         if (isInView(this)) {
             // 画Box
+            this.preRender();
+
             this.renderBox();
+            this.renderSelf();
             // 画children
             this.renderChildren();
+
+            this.postRender();
         }
     }
 }

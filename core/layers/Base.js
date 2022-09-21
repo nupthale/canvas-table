@@ -8,6 +8,8 @@ export default class Base {
         // 全局Context
         this.ctx = props.ctx;
 
+        this.scroller = props.scroller;
+
         // 层级关系
         this.parent = null;
         this._children = [];
@@ -17,6 +19,22 @@ export default class Base {
     // 同层级的所有Div
     get siblings() {
         return this.parent ? this.parent.children || [] : [];
+    }
+
+    get prevSiblings() {
+        const siblings = this.siblings || [];
+
+        const index = siblings.findIndex(sibling => sibling === this);
+
+        return siblings.slice(0, index);
+    }
+
+    get postSiblings() {
+        const siblings = this.siblings || [];
+
+        const index = siblings.findIndex(sibling => sibling === this);
+
+        return siblings.slice(index + 1);
     }
 
     get children() {

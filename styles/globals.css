@@ -16,10 +16,6 @@ a {
   box-sizing: border-box;
 }
 
-canvas {
-  background: #fff;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -28,4 +24,16 @@ canvas {
     color: white;
     background: black;
   }
+}
+
+
+.container {
+  position: relative;
+}
+
+.container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
 }

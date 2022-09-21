@@ -1,29 +1,57 @@
-import {createElement, PIXEL_RATIO} from "./utils/util";
+import { PIXEL_RATIO} from "./utils/util";
 import Layer from "./layers/Layer";
-import LayerText from "./layers/LayerText";
 
-const cellStyle = {
-    width: 100,
-    height: 30,
-}
+import Table from "./elements/Table";
+import THead from "./elements/THead";
+import TBody from "./elements/TBody";
+import TRow from "./elements/TRow";
+import TCol from "./elements/TCol";
+import Container from "./elements/Container";
 
-const strokeColor = '#ddd';
+import {cellStyle, height, width, strokeColor, containerPadding } from "./meta";
 
-export default class Table {
+
+export default class TableEntry {
     constructor(props) {
         this.columns = props.columns;
         this.dataSource = props.dataSource;
-        this.$canvas = props.$canvas;
+        this.$canvas = null;
+        this.$root = props.$root;
+        this.$container = null;
 
-        this.hasRender = false;
+        this.hasInit = false;
+
+        this.table = null;
+
+        this.scroller = {
+            scrollTop: 0,
+            scrollLeft: 0,
+        };
 
         this.init();
     }
 
     init() {
-        this.ctxInit();
+        if (this.hasInit) {
+            return;
+        }
 
+        this.hasInit = true;
+
+        this.initDom();
+        this.ctxInit();
         this.render();
+    }
+
+    initDom() {
+        const $canvas = document.createElement('canvas');
+        $canvas.width = width * PIXEL_RATIO;
+        $canvas.height = height * PIXEL_RATIO;
+        $canvas.style.width = `${width}px`;
+        $canvas.style.height = `${height}px`;
+        this.$canvas = $canvas;
+
+        this.$root.appendChild(this.$canvas);
     }
 
     ctxInit() {
@@ -38,6 +66,9 @@ export default class Table {
     get commonProps() {
         return {
             ctx: this.ctx,
+            tableWidth: this.tableWidth,
+            tableHeight: this.tableHeight,
+            scroller: this.scroller,
         }
     }
 
@@ -49,130 +80,48 @@ export default class Table {
         return (1 + this.dataSource.length) * cellStyle.height;
     }
 
-    table(thead, tbody) {
-        return createElement(Layer, {
-            ...this.commonProps,
-            style: {
-                direction: 'vertical',
-                width: this.tableWidth,
-                height: this.tableHeight,
-                padding: [0, 0, 0, 0],
-                border: [],
-            }
-        }, [thead, tbody]);
+    getTHead() {
+        // header
+        const cols = this.columns.map(col => {
+            return TCol.create(this, {
+                text: col.title,
+                fixed: col.fixed,
+            });
+        });
+        const row = TRow.create(this, cols);
+        return THead.create(this, row);
     }
 
-    thead(tr) {
-        return createElement(Layer, {
-            ...this.commonProps,
-            style: {
-                direction: 'horizontal',
-                width: this.tableWidth,
-                height: cellStyle.height,
-                padding: [0, 0, 0, 0],
-                border: [],
-            }
-        }, [tr]);
-    }
-
-    tbody(trs) {
-        return createElement(Layer, {
-            ...this.commonProps,
-            style: {
-                direction: 'vertical',
-                width: this.tableWidth,
-                height: this.dataSource.length * cellStyle.height,
-                padding: [0, 0, 0, 0],
-                border: [],
-            }
-        }, trs)
-    }
-
-    tr(tds) {
-       return createElement(Layer, {
-           ...this.commonProps,
-           style: {
-               direction: 'horizontal',
-               width: this.tableWidth,
-               height: cellStyle.height,
-               padding: [0, 0, 0, 0],
-               border: [],
-           }
-       }, tds)
-    }
-
-    td(text) {
-        const border = [
-            { color: strokeColor },
-            { color: strokeColor },
-            { color: strokeColor },
-            { color: strokeColor },
-        ]
-
-        return createElement(Layer, {
-            ...this.commonProps,
-            style: {
-                direction: 'horizontal',
-                width: cellStyle.width,
-                height: cellStyle.height,
-                border,
-                padding: [4, 4, 4, 4],
-            }
-        },
-            [createElement(LayerText, {
-                ...this.commonProps,
-                text,
-                style: {
-                    width: '100%',
-                    height: '100%',
-                    padding: [0, 0, 0, 0],
-                    border: [],
-                    color: "#666"
-                }
-            }, [])]
-        )
-    }
-
-    render() {
-        if (this.hasRender) {
-            return;
-        }
-
+    getTBody() {
         const columns = this.columns;
         const dataSource = this.dataSource;
 
-        // header
-        const hdCols = columns.map(col => this.td(col.title));
-        const hdRow = this.tr(hdCols);
-        const thead = this.thead(hdRow);
-
         // body
         const trs = dataSource.map(row => {
-            const cols = columns.map(col => this.td(row[col.dataIndex]))
-            return this.tr(cols);
+            const cols = columns.map(col => TCol.create(this, {
+                text: row[col.dataIndex],
+                fixed: col.fixed,
+            }));
+
+            return TRow.create(this, cols);
         });
-        const tbody = this.tbody(trs);
 
-        const table = this.table(thead, tbody);
-
-        // this.testTable(table);
-        this.hasRender = true;
-        table.render();
-
-
+        return TBody.create(this, trs);
     }
 
-    testTable(table) {
-        console.info('--start');
-        console.info('--table', table.getLayoutBox());
-        console.info('--thead', table.children[0].getLayoutBox());
-        console.info('--tbody', table.children[1].getLayoutBox());
+    onScroll(scrollLeft, scrollTop) {
+        this.scroller.scrollLeft = scrollLeft;
+        this.scroller.scrollTop = scrollTop;
 
+        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.container.render();
+    }
 
-        console.info('--tr[0]', table.children[1].children[0].getLayoutBox());
-        console.info('--tr[1]', table.children[1].children[1].getLayoutBox());
-        console.info('--tr[2]', table.children[1].children[2].getLayoutBox());
+    render() {
+        this.table = Table.create(this, this.getTHead(), this.getTBody());
 
-        console.info('--end');
+        this.container = Container.create(this, this.table);
+
+        this.container.render();
     }
 }

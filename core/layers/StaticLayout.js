@@ -17,10 +17,18 @@ export default class StaticLayout extends Base {
 
     // parent外部的left + parent内部的paddingLeft + 前置兄弟$div的宽度
     get left() {
+       return this.getStaticLeft();
+    }
+
+    getStaticLeft() {
         const parent = this.parent;
 
         const parentLeft = parent ? parent.left + parent.padding.left : 0;
         let preSiblingsLeft = 0;
+
+        if (!this.parent) {
+            return this.scroller.scrollLeft;
+        }
 
         if (this.parent?.direction === 'vertical') {
             return parentLeft;
@@ -37,15 +45,24 @@ export default class StaticLayout extends Base {
             preSiblingsLeft += sibling.width;
         }
 
+
         return parentLeft + preSiblingsLeft;
     }
 
     // parent外部的top + parent内部的paddingTop + 内部居中方式计算的top
     get top() {
+       return this.getStaticTop();
+    }
+
+    getStaticTop() {
         const parent = this.parent;
         let verticalTop = 0;
 
         const parentTop = parent ? parent.top + parent.padding?.top : 0;
+
+        if (!this.parent) {
+            return this.scroller.scrollTop;
+        }
 
         if (this.parent?.direction === 'horizontal') {
             return parentTop;
@@ -54,11 +71,11 @@ export default class StaticLayout extends Base {
         let preSiblingTop = 0;
         // 垂直
         for(let i = 0; i < this.siblings.length; i++) {
-           const sibling = this.siblings[i];
+            const sibling = this.siblings[i];
 
-           if (sibling === this) {
-               break;
-           }
+            if (sibling === this) {
+                break;
+            }
 
             preSiblingTop += sibling.height;
         }

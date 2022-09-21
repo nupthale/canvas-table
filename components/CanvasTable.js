@@ -1,49 +1,53 @@
-import { useRef, useEffect } from 'react';
-import Table from "../core/index";
+import { useRef, useEffect, useState } from 'react';
+import TableEntry from "../core/index";
 
-import {PIXEL_RATIO} from "../core/utils/util";
+import Scroller from './Scroller';
+
+import {columns, dataSource} from "./mock";
 
 
-const columns = [
-    {title: 'avatar', dataIndex: 'avatar' },
-    {title: 'name',dataIndex: 'name' },
-    {title: 'age', dataIndex: 'age'},
-    {title: 'address', dataIndex: 'address' }
-];
-
-const dataSource = [
-    {avatar: '🎅🏻',name: 'chuanJianGuo', age: 74, address: 'America'},
-    {avatar: '👵🏻', name: 'caiEnglish', age: 63, address: 'China Taiwan'},
-    {avatar: '-',name: 'trump', age: 74, address: 'America'},
-    {avatar: '-',name: 'johnson', age: 70, address: 'England'}
-];
+import {width, height} from "../core/meta";
 
 export default function CanvasTable() {
-    const canvasRef = useRef();
+    const mountRef = useRef();
+    const initRef = useRef(false);
+    const [tableEntry, setTableEntry] = useState();
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const table = new Table({
-                columns,
-                dataSource,
-                $canvas: canvasRef.current,
-            });
-
-            table.render();
+        if (initRef.current) {
+            return;
         }
+
+        initRef.current = true;
+
+        const tableEntry = new TableEntry({
+            columns,
+            dataSource,
+            $root: mountRef.current,
+        });
+
+        setTableEntry(tableEntry);
     }, []);
 
-    const width = 1000;
-    const height = 800;
+    const handleScroll = (scrollLeft, scrollTop) => {
+        tableEntry.onScroll(0 - scrollLeft, 0 - scrollTop);
+    }
 
     return (
-        <div>
-            <canvas
-                width={width * PIXEL_RATIO}
-                height={height * PIXEL_RATIO}
-                style={{height: `${height}px`, width: `${width}px`}}
-                ref={canvasRef}
-            />
+        <div className="container" style={{
+            width: `${width}px`,
+            height: `${height}px`,
+            overflow: 'hidden',
+        }}>
+            <div ref={mountRef} />
+            <Scroller
+                width={width}
+                height={height}
+                tableWidth={tableEntry?.container.width}
+                tableHeight={tableEntry?.container.height}
+                onScroll={handleScroll}
+            >
+            </Scroller>
         </div>
     );
 }

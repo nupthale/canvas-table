@@ -1,3 +1,5 @@
+import {containerPadding, getTableViewWidth} from "../meta";
+
 export const drawLine = (
     ctx,
     startX,
@@ -40,6 +42,30 @@ export const drawRect = (
     }
 };
 
+export const shadowRect = ({
+    ctx,
+    x = 15,
+    y = 15,
+    w = 100,
+    h = 40,
+    fillStyle = '#fff',
+    shadowOffsetX = 0,
+    shadowOffsetY = 7,
+    shadowBlur = 29,
+    shadowColor = "rgba(100, 100, 111, 0.2)"
+} = {}) => {
+    ctx.save();
+
+    ctx.shadowOffsetX = shadowOffsetX;
+    ctx.shadowOffsetY = shadowOffsetY;
+    ctx.shadowBlur = shadowBlur;
+    ctx.shadowColor = shadowColor;
+    ctx.fillStyle = fillStyle;
+    ctx.fillRect(x, y, w, h);
+
+    ctx.restore();
+}
+
 export const text2Ellipsis = (
     ctx,
     str,
@@ -74,4 +100,22 @@ export const text2Ellipsis = (
         }
         return maxStr.substring(0, i) + ellipsis;
     }
+}
+
+export const clipRect = (ctx, x, y, width, height, callback) => {
+    ctx.save();
+
+    ctx.rect(
+        x,
+        y,
+        width,
+        height
+    );
+
+    // 不clip的话， 超出部分会显示出来， clip相当于overflow： hidden的效果
+    ctx.clip();
+
+    callback();
+
+    ctx.restore();
 }
