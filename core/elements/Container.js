@@ -22,12 +22,24 @@ export default class Container extends Layer {
 
         this.ctx = props.ctx;
         this.children = props.children || [];
+
+        this.initEvent();
+    }
+
+    initEvent() {
+        this.on('click', (e) => {
+            this.ctx.save();
+            this.ctx.rect(20, 20, 150, 100);
+            this.ctx.strokeStyle = 'red';
+            this.ctx.stroke();
+
+            this.ctx.restore();
+        });
     }
 
     renderSelf() {
         const width = getTableViewWidth();
         const height = getTableViewHeight();
-        debugger;
 
         shadowRect({
             ctx: this.ctx,

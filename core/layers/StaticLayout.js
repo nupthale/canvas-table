@@ -1,6 +1,6 @@
 import Base from "./Base";
 
-import {percentCalc} from "../utils/util";
+import {isInView, percentCalc} from "../utils/util";
 
 // 布局相关样式 + 盒模型
 export default class StaticLayout extends Base {
@@ -109,6 +109,15 @@ export default class StaticLayout extends Base {
     get border () {
         const [top, right, bottom, left] = this.style.border;
         return { top, right, bottom, left };
+    }
+
+    // 鼠标点击的x， y，是否是当前的layer
+    isHit(x, y) {
+        return (
+            isInView(this) &&
+            (x > this.left && x < this.left + this.width) &&
+            (y > this.top && y < this.top + this.height)
+        );
     }
 
     getLayoutBox() {

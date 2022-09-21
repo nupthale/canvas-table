@@ -72,17 +72,4 @@ export default class TCol extends Layer {
 
         return value;
     }
-
-    get top() {
-        // switch(this.fixed) {
-        //     case 'left':
-        //         break;
-        //     case 'right':
-        //         break;
-        //     default:
-        //
-        //         break;
-        // }
-        return this.getStaticTop();
-    }
 }

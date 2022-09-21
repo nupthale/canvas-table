@@ -77,7 +77,7 @@ export default class Style extends StaticLayout {
 
     sortAndRender(children) {
         // 必须clone， 要不然siblings的顺序也被sort了
-        const sortedLayer = [...(children || [])].sort((prev, next) => prev.zIndex - next.zIndex);
+        const sortedLayer = [...(children || [])].sort((prev, next) => (prev.zIndex || 0) - (next.zIndex || 0));
 
         sortedLayer.forEach(child => {
             child.render();

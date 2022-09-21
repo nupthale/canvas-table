@@ -24,6 +24,7 @@ export default function CanvasTable() {
             columns,
             dataSource,
             $root: mountRef.current,
+            fixedHeader: true,
         });
 
         setTableEntry(tableEntry);
@@ -34,20 +35,18 @@ export default function CanvasTable() {
     }
 
     return (
-        <div className="container" style={{
+        <div ref={mountRef} className="container" style={{
             width: `${width}px`,
             height: `${height}px`,
             overflow: 'hidden',
         }}>
-            <div ref={mountRef} />
             <Scroller
                 width={width}
                 height={height}
                 tableWidth={tableEntry?.container.width}
                 tableHeight={tableEntry?.container.height}
                 onScroll={handleScroll}
-            >
-            </Scroller>
+            />
         </div>
     );
 }

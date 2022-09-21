@@ -1,4 +1,4 @@
-import { PIXEL_RATIO} from "./utils/util";
+import {getScrollbarWidth, PIXEL_RATIO} from "./utils/util";
 import Layer from "./layers/Layer";
 
 import Table from "./elements/Table";
@@ -7,6 +7,9 @@ import TBody from "./elements/TBody";
 import TRow from "./elements/TRow";
 import TCol from "./elements/TCol";
 import Container from "./elements/Container";
+
+import ClickHandler from "../core/event/ClickHandler";
+
 
 import {cellStyle, height, width, strokeColor, containerPadding } from "./meta";
 
@@ -18,6 +21,7 @@ export default class TableEntry {
         this.$canvas = null;
         this.$root = props.$root;
         this.$container = null;
+        this.fixedHeader = props.fixedHeader;
 
         this.hasInit = false;
 
@@ -41,6 +45,7 @@ export default class TableEntry {
         this.initDom();
         this.ctxInit();
         this.render();
+        this.eventInit();
     }
 
     initDom() {
@@ -51,7 +56,11 @@ export default class TableEntry {
         $canvas.style.height = `${height}px`;
         this.$canvas = $canvas;
 
-        this.$root.appendChild(this.$canvas);
+        this.$root.prepend(this.$canvas);
+    }
+
+    eventInit() {
+        new ClickHandler(this);
     }
 
     ctxInit() {

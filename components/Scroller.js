@@ -31,7 +31,7 @@ export default function Scroller(props) {
           left: 0,
           width: `${width}px`,
           height: `${height}px`,
-          overflow: 'auto'
+          overflow: 'auto',
       }}>
           <div
               style={{
