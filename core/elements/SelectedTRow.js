@@ -1,6 +1,8 @@
 import TRow from "./TRow";
 import {createElement} from "../utils/util";
-import {drawStrokeRect} from "../utils/draw";
+
+import SelectionRect from "./SelectionRect";
+import ExpandIndicator from './ExpandIndicator';
 
 export default class SelectedTRow extends TRow {
     static create(stage, tds, rowIndex) {
@@ -9,6 +11,8 @@ export default class SelectedTRow extends TRow {
 
     constructor(props) {
         super(props);
+
+        this.props = props;
     }
 
     renderCenter() {
@@ -28,30 +32,14 @@ export default class SelectedTRow extends TRow {
         this.drawFixedSelection();
     }
 
-    drawSelection() {
-        const { selectionManager, ctx } = this.stage;
-        const { activeCol } = selectionManager;
 
-        const { left, top, width, height } = activeCol;
-
-        drawStrokeRect(
-            ctx,
-            left,
-            top,
-            width,
-            height,
-            2,
-            'rgba(69, 128, 230, 1)',
-            4,
-        );
-    }
 
     drawCenterSelection() {
         const { selectionManager } = this.stage;
         const { activeCol } = selectionManager;
 
         if (activeCol && !activeCol.fixed) {
-            this.drawSelection();
+            SelectionRect.create(this.props).render();
         }
     }
 
@@ -60,7 +48,7 @@ export default class SelectedTRow extends TRow {
         const { activeCol } = selectionManager;
 
         if (activeCol && activeCol.fixed) {
-            this.drawSelection();
+            SelectionRect.create(this.props).render();
         }
     }
 }

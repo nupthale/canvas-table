@@ -10,6 +10,9 @@ import SelectedTRow from "./elements/SelectedTRow";
 import Container from "./elements/Container";
 
 import ClickHandler from "../core/event/ClickHandler";
+import DblClickHandler from "../core/event/DblClickHandler";
+import ContextMenuHandler from "../core/event/ContextMenuHandler";
+import MouseMoveHandler from "../core/event/MouseMoveHandler";
 
 import SelectionManager from "./selection/manager";
 
@@ -65,6 +68,9 @@ export default class Stage {
 
     eventInit() {
         new ClickHandler(this);
+        new DblClickHandler(this);
+        new ContextMenuHandler(this);
+        new MouseMoveHandler(this);
     }
 
     ctxInit() {

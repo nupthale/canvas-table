@@ -13,11 +13,11 @@ export default class ClickHandler {
 
     init() {
         this.$root.addEventListener('click', e => {
-            this.clickHandler('click', e);
+            this.handler('click', e);
         });
     }
 
-    clickHandler(type, e) {
+    handler(type, e) {
         const {left, top} = this.$root.getBoundingClientRect();
         this.eventX = e.clientX - left;
         this.eventY = e.clientY - top;

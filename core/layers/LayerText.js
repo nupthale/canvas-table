@@ -65,8 +65,8 @@ export default class LayerText extends Layer {
         const fontWeight = this.style.fontWeight || this.defaultStyle.fontWeight;
 
         ctx.font = [fontWeight, fontSize, fontFamily].join(' ');
-        // ctx.fillText(this.textEllipsis, x, y + this.padding.top);
-        ctx.fillText(this.left, x, y + this.padding.top);
+        ctx.fillText(this.textEllipsis, x, y + this.padding.top);
+        // ctx.fillText(this.left, x, y + this.padding.top);
         ctx.restore();
     }
 

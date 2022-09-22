@@ -29,14 +29,6 @@ export default class Container extends Layer {
     }
 
     initEvent() {
-        // this.on('click', (e) => {
-        //     this.ctx.save();
-        //     this.ctx.rect(20, 20, 150, 100);
-        //     this.ctx.strokeStyle = 'red';
-        //     this.ctx.stroke();
-        //
-        //     this.ctx.restore();
-        // });
     }
 
     renderSelf() {

@@ -8,7 +8,7 @@ export const cellStyle = {
 export const width = 1000;
 export const height = 500;
 
-export const strokeColor = '#dee0e3';
+export const strokeColor = '#e8ebed';
 
 export const containerPadding = 12;
 

@@ -14,8 +14,10 @@ export default class LayerEvent {
         this.type = props.type;
         this.x = props.x;
         this.y = props.y;
-        this.target = this.path[0] || null;
+        // this.target = this.path[0] || null;
 
+        this._path = [];
+        this.path = props.path;
 
         this.isPropagationStopped = false;
     }
@@ -25,30 +27,40 @@ export default class LayerEvent {
     }
 
     copy(changedProps) {
-        const { x, y, path, type } = this;
+        const { x, y, path, type, stage } = this;
 
         return LayerEvent.create({
             x,
             y,
             path: [...(path || [])],
             type,
+            stage,
             ...changedProps,
         });
     }
 
     get path() {
-        const { x, y } = this;
-        const result = [];
+       return this._path;
+    }
 
-        dfs(this.root, (layer) => {
-            if (layer.isHit(x, y)) {
-                result.push(layer);
-                return true;
-            }
+    set path(path) {
+        if (path) {
+            this._path = path;
+        } else {
+            const { x, y } = this;
+            const result = [];
 
-            return false;
-        });
+            dfs(this.root, (layer) => {
+                if (layer.isHit(x, y)) {
+                    result.push(layer);
+                    return true;
+                }
 
-        return result;
+                return false;
+            });
+
+            this._path = result;
+        }
+
     }
 }

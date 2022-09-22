@@ -29,6 +29,8 @@ a {
 
 .container {
   position: relative;
+
+  cursor: cell;
 }
 
 .container canvas {
@@ -36,4 +38,6 @@ a {
   top: 0;
   left: 0;
   background: #fff;
+
+
 }
