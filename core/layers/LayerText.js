@@ -40,6 +40,10 @@ export default class LayerText extends Layer {
 
         ctx.save();
 
+        if (this.text === 'abc' || this._textEllipsis === 'abc') {
+            debugger;
+        }
+
         switch(this.align) {
             case 'center':
                 x = left + width / 2;
@@ -71,7 +75,6 @@ export default class LayerText extends Layer {
     }
 
     renderChildren() {
-
         this.drawText();
     }
 }

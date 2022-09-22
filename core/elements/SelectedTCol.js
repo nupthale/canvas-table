@@ -1,12 +1,22 @@
 import TCol from "./TCol";
 import {createElement} from "../utils/util";
+import Tag from "./Tag";
 
 export default class SelectedTCol extends TCol {
     static create(stage, props) {
         const { commonProps } = stage;
 
+        let children = this.createLayerText(commonProps, props.text);
+
+        if (props.colIndex === 3) {
+            children = Tag.create({
+                ...props,
+                stage,
+            });
+        }
+
         return createElement(SelectedTCol, this.getColProps(stage, props),
-            [this.createLayerText(commonProps, props.text)]
+            [children]
         )
     }
     constructor(props) {

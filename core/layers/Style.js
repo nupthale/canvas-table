@@ -93,6 +93,10 @@ export default class Style extends StaticLayout {
     }
 
     render() {
+        if (this.tag) {
+            debugger;
+        }
+
         if (isInView(this)) {
             // 画Box
             this.preRender();
