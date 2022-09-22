@@ -18,7 +18,6 @@ export default class TCol extends Layer {
         height: cellStyle.height,
         border,
         padding: [4, 8, 4, 8],
-        // zIndex: props.fixed ? 1 : 0,
         backgroundColor: "#fff",
     }
 
@@ -31,7 +30,7 @@ export default class TCol extends Layer {
                 height: '100%',
                 padding: [0, 0, 0, 0],
                 border: [],
-                color: "#666"
+                color: "#666",
             }
         }, []);
     }

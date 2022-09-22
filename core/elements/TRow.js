@@ -7,12 +7,13 @@ import {clipRect} from "../utils/draw";
 
 
 export default class TRow extends Layer {
-    static create(stage, tds, rowIndex) {
+    static getDefaultProps(stage, rowIndex) {
         const { commonProps } = stage;
 
-        return createElement(TRow, {
+        return {
             ...commonProps,
             rowIndex,
+            stage,
             style: {
                 direction: 'horizontal',
                 width: stage.tableWidth,
@@ -20,12 +21,17 @@ export default class TRow extends Layer {
                 padding: [0, 0, 0, 0],
                 border: [],
             }
-        }, tds)
+        };
+    }
+
+    static create(stage, tds, rowIndex) {
+        return createElement(TRow, this.getDefaultProps(stage, rowIndex), tds)
     }
 
     constructor(props) {
         super(props);
 
+        this.stage = props.stage;
         this.rowIndex = props.rowIndex;
     }
 
@@ -59,7 +65,7 @@ export default class TRow extends Layer {
         return this.children.filter(col => col.fixed === 'right');
     }
 
-    renderCenter() {
+    clipCenter(callback) {
         const fixedLeftWidth = this.getTotalWidth(this.fixedLeftCols);
         const fixedRightWidth = this.getTotalWidth(this.fixedRightCols);
 
@@ -70,9 +76,15 @@ export default class TRow extends Layer {
             getTableViewWidth() - fixedLeftWidth - fixedRightWidth,
             this.height,
             () => {
-                this.sortAndRender(this.centerCols);
+                callback();
             }
         );
+    }
+
+    renderCenter() {
+        this.clipCenter(() => {
+            this.sortAndRender(this.centerCols);
+        });
     }
 
     renderFixedLeft() {

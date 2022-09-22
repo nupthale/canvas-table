@@ -6,6 +6,7 @@ import TBody from "./elements/TBody";
 import TRow from "./elements/TRow";
 import TCol from "./elements/TCol";
 import SelectedTCol from "./elements/SelectedTCol";
+import SelectedTRow from "./elements/SelectedTRow";
 import Container from "./elements/Container";
 
 import ClickHandler from "../core/event/ClickHandler";
@@ -119,7 +120,7 @@ export default class Stage {
                 colIndex,
             }));
 
-            return TRow.create(this, cols, rowIndex + 1);
+            return SelectedTRow.create(this, cols, rowIndex + 1);
         });
 
         return TBody.create(this, trs);

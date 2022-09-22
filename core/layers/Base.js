@@ -52,7 +52,7 @@ export default class Base {
     on(name, handler) {
         return this.event$.pipe(
             filter((e) => e.name === name),
-            tap(handler),
+            tap((e) => handler(e.value)),
         ).subscribe();
     }
 

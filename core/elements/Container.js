@@ -1,6 +1,6 @@
 import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
-import {clipRect, drawStrokeRect, shadowRect} from "../utils/draw";
+import {clipRect, shadowRect} from "../utils/draw";
 import {containerPadding, getTableViewWidth, getTableViewHeight} from "../meta";
 
 export default class Container extends Layer {
@@ -63,25 +63,5 @@ export default class Container extends Layer {
                 this.sortAndRender(this.children);
             }
         );
-    }
-
-    postRender() {
-        const { selectionManager, ctx } = this.stage;
-
-        if (selectionManager.activeCol) {
-            // highlight
-            const { left, top, width, height } = selectionManager.activeCol;
-
-            drawStrokeRect(
-                ctx,
-                left,
-                top,
-                width,
-                height,
-                2,
-                'rgba(69, 128, 230, 1)',
-                4,
-            );
-        }
     }
 }

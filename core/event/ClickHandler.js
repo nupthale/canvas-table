@@ -13,7 +13,6 @@ export default class ClickHandler {
 
     init() {
         this.$root.addEventListener('click', e => {
-            debugger;
             this.clickHandler('click', e);
         });
     }
@@ -29,7 +28,6 @@ export default class ClickHandler {
             y: this.eventY,
             stage: this.stage,
         });
-        debugger;
 
         layerEvent.path.forEach(layer => {
             if (!layerEvent.isPropagationStopped) {

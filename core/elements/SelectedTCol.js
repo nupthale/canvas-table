@@ -1,9 +1,6 @@
 import TCol from "./TCol";
 import {createElement} from "../utils/util";
 
-import {drawStrokeRect} from "../utils/draw";
-
-
 export default class SelectedTCol extends TCol {
     static create(stage, props) {
         const { commonProps } = stage;
@@ -28,6 +25,9 @@ export default class SelectedTCol extends TCol {
             selectionManager.activeCol = this;
 
             console.info(rowIndex, colIndex);
+
+            debugger;
+            e.stopPropagation();
         });
     }
 }
