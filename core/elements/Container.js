@@ -1,19 +1,20 @@
 import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
-import {clipRect, shadowRect} from "../utils/draw";
+import {clipRect, drawStrokeRect, shadowRect} from "../utils/draw";
 import {containerPadding, getTableViewWidth, getTableViewHeight} from "../meta";
 
 export default class Container extends Layer {
-    static create(tableEntry, table) {
+    static create(stage, table) {
         return createElement(Container, {
-            ctx: tableEntry.ctx,
+            ctx: stage.ctx,
+            stage,
             style: {
-                width: tableEntry.tableWidth + containerPadding * 2,
-                height: tableEntry.tableHeight + containerPadding * 2,
+                width: stage.tableWidth + containerPadding * 2,
+                height: stage.tableHeight + containerPadding * 2,
                 border: [],
                 padding: [containerPadding, containerPadding, containerPadding, containerPadding],
             },
-            scroller: tableEntry.scroller,
+            scroller: stage.scroller,
         }, [table])
     }
 
@@ -21,20 +22,21 @@ export default class Container extends Layer {
         super(props);
 
         this.ctx = props.ctx;
+        this.stage = props.stage;
         this.children = props.children || [];
 
         this.initEvent();
     }
 
     initEvent() {
-        this.on('click', (e) => {
-            this.ctx.save();
-            this.ctx.rect(20, 20, 150, 100);
-            this.ctx.strokeStyle = 'red';
-            this.ctx.stroke();
-
-            this.ctx.restore();
-        });
+        // this.on('click', (e) => {
+        //     this.ctx.save();
+        //     this.ctx.rect(20, 20, 150, 100);
+        //     this.ctx.strokeStyle = 'red';
+        //     this.ctx.stroke();
+        //
+        //     this.ctx.restore();
+        // });
     }
 
     renderSelf() {
@@ -61,5 +63,25 @@ export default class Container extends Layer {
                 this.sortAndRender(this.children);
             }
         );
+    }
+
+    postRender() {
+        const { selectionManager, ctx } = this.stage;
+
+        if (selectionManager.activeCol) {
+            // highlight
+            const { left, top, width, height } = selectionManager.activeCol;
+
+            drawStrokeRect(
+                ctx,
+                left,
+                top,
+                width,
+                height,
+                2,
+                'rgba(69, 128, 230, 1)',
+                4,
+            );
+        }
     }
 }

@@ -4,8 +4,8 @@ import {createElement} from "../utils/util";
 import { cellStyle, containerPadding } from "../meta";
 
 export default class THead extends Layer {
-    static create(tableEntry, tr) {
-        const { commonProps, fixedHeader } = tableEntry;
+    static create(stage, tr) {
+        const { commonProps, fixedHeader } = stage;
 
         return createElement(THead, {
             ...commonProps,

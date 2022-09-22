@@ -8,8 +8,8 @@ export default class LayerEvent {
     }
 
     constructor(props) {
-        this.tableEntry = props.tableEntry;
-        this.root = this.tableEntry.container;
+        this.stage = props.stage;
+        this.root = this.stage.container;
 
         this.type = props.type;
         this.x = props.x;

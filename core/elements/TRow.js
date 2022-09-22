@@ -7,14 +7,15 @@ import {clipRect} from "../utils/draw";
 
 
 export default class TRow extends Layer {
-    static create(tableEntry, tds) {
-        const { commonProps } = tableEntry;
+    static create(stage, tds, rowIndex) {
+        const { commonProps } = stage;
 
         return createElement(TRow, {
             ...commonProps,
+            rowIndex,
             style: {
                 direction: 'horizontal',
-                width: tableEntry.tableWidth,
+                width: stage.tableWidth,
                 height: cellStyle.height,
                 padding: [0, 0, 0, 0],
                 border: [],
@@ -24,6 +25,8 @@ export default class TRow extends Layer {
 
     constructor(props) {
         super(props);
+
+        this.rowIndex = props.rowIndex;
     }
 
     getTotalWidth(cols) {

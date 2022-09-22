@@ -42,6 +42,38 @@ export const drawRect = (
     }
 };
 
+export const drawStrokeRect = (
+    ctx,
+    startX,
+    startY,
+    width,
+    height,
+    lineWidth = 1,
+    color,
+    borderRadius,
+) => {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+
+    roundRect(ctx, startX, startY, width, height, borderRadius);
+    ctx.stroke();
+
+    ctx.restore();
+};
+
+export const roundRect = function (ctx, x, y, w, h, r) {
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y,   x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x,   y+h, r);
+    ctx.arcTo(x,   y+h, x,   y,   r);
+    ctx.arcTo(x,   y,   x+w, y,   r);
+    ctx.closePath();
+}
+
 export const shadowRect = ({
     ctx,
     x = 15,

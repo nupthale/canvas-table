@@ -4,41 +4,59 @@ import {createElement} from "../utils/util";
 import { cellStyle, strokeColor, containerPadding, getTableViewWidth } from "../meta";
 import LayerText from "../layers/LayerText";
 
+const border = [
+    { color: strokeColor },
+    { color: strokeColor },
+    { color: strokeColor },
+    { color: strokeColor },
+];
+
 export default class TCol extends Layer {
-    static create(tableEntry, props) {
-        const { commonProps } = tableEntry;
+    static defaultColStyle = {
+        direction: 'horizontal',
+        width: cellStyle.width,
+        height: cellStyle.height,
+        border,
+        padding: [4, 8, 4, 8],
+        // zIndex: props.fixed ? 1 : 0,
+        backgroundColor: "#fff",
+    }
 
-        const border = [
-            { color: strokeColor },
-            { color: strokeColor },
-            { color: strokeColor },
-            { color: strokeColor },
-        ];
+    static createLayerText(commonProps, text) {
+        return createElement(LayerText, {
+            ...commonProps,
+            text,
+            style: {
+                width: '100%',
+                height: '100%',
+                padding: [0, 0, 0, 0],
+                border: [],
+                color: "#666"
+            }
+        }, []);
+    }
 
-        return createElement(TCol, {
-                ...commonProps,
-                fixed: props.fixed,
-                style: {
-                    direction: 'horizontal',
-                    width: cellStyle.width,
-                    height: cellStyle.height,
-                    border,
-                    padding: [4, 8, 4, 8],
-                    zIndex: props.fixed ? 1 : 0,
-                    backgroundColor: "#fff",
-                }
-            },
-            [createElement(LayerText, {
-                ...commonProps,
-                text: props.text,
-                style: {
-                    width: '100%',
-                    height: '100%',
-                    padding: [0, 0, 0, 0],
-                    border: [],
-                    color: "#666"
-                }
-            }, [])]
+    static getColProps(stage, props) {
+        const { commonProps } = stage;
+
+        return {
+            ...commonProps,
+            rowIndex: props.rowIndex,
+            colIndex: props.colIndex,
+            stage,
+            fixed: props.fixed,
+            style: {
+                ...this.defaultColStyle,
+                zIndex: props.fixed ? 1 : 0,
+            }
+        };
+    }
+
+    static create(stage, props) {
+        const { commonProps } = stage;
+
+        return createElement(TCol, this.getColProps(stage, props),
+            [this.createLayerText(commonProps, props.text)]
         )
     }
 
@@ -46,6 +64,9 @@ export default class TCol extends Layer {
         super(props);
 
         this.fixed = props.fixed;
+
+        this.rowIndex = props.rowIndex;
+        this.colIndex = props.colIndex;
     }
 
     get left() {

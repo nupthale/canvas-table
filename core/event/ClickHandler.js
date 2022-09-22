@@ -2,17 +2,18 @@ import LayerEvent from "./LayerEvent";
 
 
 export default class ClickHandler {
-    constructor(tableEntry) {
+    constructor(stage) {
         this.eventX = 0;
         this.eventY = 0;
-        this.tableEntry = tableEntry;
-        this.$root = this.tableEntry.$root;
+        this.stage = stage;
+        this.$root = this.stage.$root;
 
         this.init();
     }
 
     init() {
         this.$root.addEventListener('click', e => {
+            debugger;
             this.clickHandler('click', e);
         });
     }
@@ -26,8 +27,9 @@ export default class ClickHandler {
             type,
             x: this.eventX,
             y: this.eventY,
-            tableEntry: this.tableEntry,
+            stage: this.stage,
         });
+        debugger;
 
         layerEvent.path.forEach(layer => {
             if (!layerEvent.isPropagationStopped) {

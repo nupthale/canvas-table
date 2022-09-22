@@ -3,8 +3,8 @@ import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
 
 export default class Table extends Layer {
-    static create(tableEntry, thead, tbody) {
-        const { commonProps } = tableEntry;
+    static create(stage, thead, tbody) {
+        const { commonProps } = stage;
 
         return createElement(Table, {
             ...(commonProps),

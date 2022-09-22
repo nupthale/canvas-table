@@ -4,8 +4,8 @@ import {createElement} from "../utils/util";
 import { cellStyle } from "../meta";
 
 export default class TBody extends Layer {
-    static create(tableEntry, trs) {
-        const { commonProps, dataSource } = tableEntry;
+    static create(stage, trs) {
+        const { commonProps, dataSource } = stage;
 
         return createElement(TBody, {
             ...commonProps,

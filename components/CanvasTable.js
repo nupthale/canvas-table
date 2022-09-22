@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import TableEntry from "../core/index";
+import Stage from "../core/index";
 
 import Scroller from './Scroller';
 
@@ -11,7 +11,7 @@ import {width, height} from "../core/meta";
 export default function CanvasTable() {
     const mountRef = useRef();
     const initRef = useRef(false);
-    const [tableEntry, setTableEntry] = useState();
+    const [stage, setStage] = useState();
 
     useEffect(() => {
         if (initRef.current) {
@@ -20,18 +20,18 @@ export default function CanvasTable() {
 
         initRef.current = true;
 
-        const tableEntry = new TableEntry({
+        const stage = new Stage({
             columns,
             dataSource,
             $root: mountRef.current,
             fixedHeader: true,
         });
 
-        setTableEntry(tableEntry);
+        setStage(stage);
     }, []);
 
     const handleScroll = (scrollLeft, scrollTop) => {
-        tableEntry.onScroll(0 - scrollLeft, 0 - scrollTop);
+        stage.onScroll(0 - scrollLeft, 0 - scrollTop);
     }
 
     return (
@@ -43,8 +43,8 @@ export default function CanvasTable() {
             <Scroller
                 width={width}
                 height={height}
-                tableWidth={tableEntry?.container.width}
-                tableHeight={tableEntry?.container.height}
+                tableWidth={stage?.container.width}
+                tableHeight={stage?.container.height}
                 onScroll={handleScroll}
             />
         </div>

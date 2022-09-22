@@ -1,31 +1,34 @@
-import {getScrollbarWidth, PIXEL_RATIO} from "./utils/util";
-import Layer from "./layers/Layer";
+import {PIXEL_RATIO} from "./utils/util";
 
 import Table from "./elements/Table";
 import THead from "./elements/THead";
 import TBody from "./elements/TBody";
 import TRow from "./elements/TRow";
 import TCol from "./elements/TCol";
+import SelectedTCol from "./elements/SelectedTCol";
 import Container from "./elements/Container";
 
 import ClickHandler from "../core/event/ClickHandler";
 
+import SelectionManager from "./selection/manager";
 
-import {cellStyle, height, width, strokeColor, containerPadding } from "./meta";
+
+import {cellStyle, height, width, strokeColor } from "./meta";
 
 
-export default class TableEntry {
+export default class Stage {
     constructor(props) {
         this.columns = props.columns;
         this.dataSource = props.dataSource;
+
         this.$canvas = null;
         this.$root = props.$root;
-        this.$container = null;
         this.fixedHeader = props.fixedHeader;
 
         this.hasInit = false;
-
         this.table = null;
+
+        this.selectionManager = new SelectionManager(this);
 
         this.scroller = {
             scrollTop: 0,
@@ -91,13 +94,15 @@ export default class TableEntry {
 
     getTHead() {
         // header
-        const cols = this.columns.map(col => {
+        const cols = this.columns.map((col, colIndex) => {
             return TCol.create(this, {
                 text: col.title,
                 fixed: col.fixed,
+                rowIndex: 0,
+                colIndex,
             });
         });
-        const row = TRow.create(this, cols);
+        const row = TRow.create(this, cols, 0);
         return THead.create(this, row);
     }
 
@@ -106,24 +111,30 @@ export default class TableEntry {
         const dataSource = this.dataSource;
 
         // body
-        const trs = dataSource.map(row => {
-            const cols = columns.map(col => TCol.create(this, {
+        const trs = dataSource.map((row, rowIndex) => {
+            const cols = columns.map((col, colIndex) => SelectedTCol.create(this, {
                 text: row[col.dataIndex],
                 fixed: col.fixed,
+                rowIndex: rowIndex + 1,
+                colIndex,
             }));
 
-            return TRow.create(this, cols);
+            return TRow.create(this, cols, rowIndex + 1);
         });
 
         return TBody.create(this, trs);
+    }
+
+    updateView() {
+        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        this.container.render();
     }
 
     onScroll(scrollLeft, scrollTop) {
         this.scroller.scrollLeft = scrollLeft;
         this.scroller.scrollTop = scrollTop;
 
-        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-        this.container.render();
+        this.updateView();
     }
 
     render() {
@@ -131,6 +142,6 @@ export default class TableEntry {
 
         this.container = Container.create(this, this.table);
 
-        this.container.render();
+        this.updateView();
     }
 }
