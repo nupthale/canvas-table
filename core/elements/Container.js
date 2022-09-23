@@ -1,21 +1,36 @@
 import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
 import {clipRect, shadowRect} from "../utils/draw";
-import {containerPadding, getTableViewWidth, getTableViewHeight} from "../meta";
+import {containerPadding, getTableViewWidth, getTableViewHeight, width, height} from "../meta";
+
+import ScrollLayer from "../layers/ScrollLayer";
 
 export default class Container extends Layer {
     static create(stage, table) {
+        const scroller = createElement(ScrollLayer, {
+            ctx: stage.ctx,
+            stage,
+            scrollWidth: stage.tableWidth,
+            scrollHeight: stage.tableHeight,
+            style: {
+                width: getTableViewWidth(),
+                height: getTableViewHeight(),
+                padding: [],
+                border: [],
+            }
+        }, [table]);
+
         return createElement(Container, {
             ctx: stage.ctx,
             stage,
             style: {
-                width: stage.tableWidth + containerPadding * 2,
-                height: stage.tableHeight + containerPadding * 2,
+                width,
+                height,
                 border: [],
                 padding: [containerPadding, containerPadding, containerPadding, containerPadding],
             },
             scroller: stage.scroller,
-        }, [table])
+        }, [scroller])
     }
 
     constructor(props) {
@@ -24,11 +39,6 @@ export default class Container extends Layer {
         this.ctx = props.ctx;
         this.stage = props.stage;
         this.children = props.children || [];
-
-        this.initEvent();
-    }
-
-    initEvent() {
     }
 
     renderSelf() {
@@ -42,18 +52,5 @@ export default class Container extends Layer {
             w: width,
             h: height,
         });
-    }
-
-    renderChildren() {
-        clipRect(
-            this.ctx,
-            containerPadding,
-            containerPadding,
-            getTableViewWidth(),
-            getTableViewHeight(),
-            () => {
-                this.sortAndRender(this.children);
-            }
-        );
     }
 }

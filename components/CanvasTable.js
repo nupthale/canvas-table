@@ -40,13 +40,13 @@ export default function CanvasTable() {
             height: `${height}px`,
             overflow: 'hidden',
         }}>
-            <Scroller
-                width={width}
-                height={height}
-                tableWidth={stage?.container.width}
-                tableHeight={stage?.container.height}
-                onScroll={handleScroll}
-            />
+            {/*<Scroller*/}
+            {/*    width={width}*/}
+            {/*    height={height}*/}
+            {/*    tableWidth={stage?.container.width}*/}
+            {/*    tableHeight={stage?.container.height}*/}
+            {/*    onScroll={handleScroll}*/}
+            {/*/>*/}
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import {Subject, filter, tap} from "rxjs";
+import { Subject, filter, tap} from "rxjs";
 
 
 export default class Base {

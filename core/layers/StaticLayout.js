@@ -20,20 +20,12 @@ export default class StaticLayout extends Base {
        return this.getStaticLeft();
     }
 
-    getStaticLeft() {
-        const parent = this.parent;
+    get preSiblingWidth() {
+        if (this._preSiblingWidth !== undefined) {
+            return this._preSiblingWidth;
+        }
 
-        const parentLeft = parent ? parent.left + parent.padding.left : 0;
         let preSiblingsLeft = 0;
-
-        if (!this.parent) {
-            return this.scroller.scrollLeft;
-        }
-
-        if (this.parent?.direction === 'vertical') {
-            return parentLeft;
-        }
-
         // 水平
         for (let i = 0; i < this.siblings.length; i++) {
             const sibling = this.siblings[i];
@@ -45,8 +37,23 @@ export default class StaticLayout extends Base {
             preSiblingsLeft += sibling.width;
         }
 
+        this._preSiblingWidth = preSiblingsLeft;
+        return this._preSiblingWidth;
+    }
 
-        return parentLeft + preSiblingsLeft;
+    getStaticLeft() {
+        const parent = this.parent;
+
+        const parentLeft = parent ? parent.left + parent.padding.left : 0;
+        const parentScrollLeft = parent?.scrollLeft || 0;
+
+
+        if (this.parent?.direction === 'vertical') {
+            return parentLeft;
+        }
+
+        let preSiblingsLeft = this.preSiblingWidth;
+        return parentLeft + preSiblingsLeft - parentScrollLeft;
     }
 
     // parent外部的top + parent内部的paddingTop + 内部居中方式计算的top
@@ -54,18 +61,9 @@ export default class StaticLayout extends Base {
        return this.getStaticTop();
     }
 
-    getStaticTop() {
-        const parent = this.parent;
-        let verticalTop = 0;
-
-        const parentTop = parent ? parent.top + parent.padding?.top : 0;
-
-        if (!this.parent) {
-            return this.scroller.scrollTop;
-        }
-
-        if (this.parent?.direction === 'horizontal') {
-            return parentTop;
+    get preSiblingHeight() {
+        if (this._preSiblingHeight !== undefined) {
+            return this._preSiblingHeight;
         }
 
         let preSiblingTop = 0;
@@ -80,34 +78,71 @@ export default class StaticLayout extends Base {
             preSiblingTop += sibling.height;
         }
 
-        return parentTop + preSiblingTop;
+        this._preSiblingHeight = preSiblingTop;
+        return this._preSiblingHeight;
+    }
+
+    getStaticTop() {
+        const parent = this.parent;
+        let verticalTop = 0;
+
+        const parentTop = parent ? parent.top + parent.padding?.top : 0;
+        const parentScrollTop = parent?.scrollTop || 0;
+
+        if (this.parent?.direction === 'horizontal') {
+            return parentTop;
+        }
+
+        let preSiblingTop = this.preSiblingHeight;
+
+        return parentTop + preSiblingTop - parentScrollTop;
     }
 
     get width() {
+        if (this._width !== undefined) {
+            return this._width;
+        }
+
         const parentInnerWidth = this.parent ? this.parent.innerWidth : 0;
-        return percentCalc(this.style.width, () => this.parent ? parentInnerWidth : 0);
+        this._width = percentCalc(this.style.width, () => this.parent ? parentInnerWidth : 0);
+        return this._width;
     }
 
     get innerWidth() {
-        return this.width - this.padding.left - this.padding.right;
+        if (this._innerWidth !== undefined) {
+            return this._innerWidth;
+        }
+
+        this._innerWidth = this.width - this.padding.left - this.padding.right;
+        return this._innerWidth;
     }
 
     get height() {
+        if (this._height !== undefined) {
+            return this._height;
+        }
+
         const parentInnerHeight = this.parent ? this.parent.innerHeight : 0;
-        return percentCalc(this.style.height, () => this.parent ? parentInnerHeight : 0)
+        this._height = percentCalc(this.style.height, () => this.parent ? parentInnerHeight : 0)
+        return this._height;
     }
 
     get innerHeight() {
-        return this.height - this.padding.top - this.padding.bottom;
+        if (this._innerHeight !== undefined) {
+            return this._innerHeight;
+        }
+
+        this._innerHeight = this.height - this.padding.top - this.padding.bottom;
+        return this._innerHeight;
     }
 
     get padding() {
-        const [top, right, bottom, left] = this.style.padding;
+        const [top = 0, right = 0, bottom = 0, left = 0] = this.style.padding;
         return { top, right, bottom, left };
     }
 
     get border () {
-        const [top, right, bottom, left] = this.style.border;
+        const [top = 0, right = 0, bottom = 0, left = 0] = this.style.border;
         return { top, right, bottom, left };
     }
 
@@ -120,7 +155,11 @@ export default class StaticLayout extends Base {
         );
     }
 
-    getLayoutBox() {
+    isInView() {
+        return isInView(this);
+    }
+
+    getBoundingBox() {
         return {
             width: this.width,
             innerWidth: this.innerWidth,

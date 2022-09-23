@@ -14,6 +14,13 @@ export default class LayerEvent {
         this.type = props.type;
         this.x = props.x;
         this.y = props.y;
+
+        this.originEvt = props.originEvt;
+
+        // mousewheel 使用
+        this.deltaX = props.deltaX;
+        this.deltaY = props.deltaY;
+
         // this.target = this.path[0] || null;
 
         this._path = [];

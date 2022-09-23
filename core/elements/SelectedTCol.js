@@ -23,6 +23,7 @@ export default class SelectedTCol extends TCol {
         super(props);
 
         this.stage = props.stage;
+        this.tag = 'col';
 
         this.initEvent();
     }

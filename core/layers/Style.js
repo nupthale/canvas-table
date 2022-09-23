@@ -1,7 +1,5 @@
 import StaticLayout from "./StaticLayout";
 
-import {isInView} from "../utils/util";
-
 import {drawRect, drawLine} from "../utils/draw";
 
 const defaultStyle = {
@@ -93,11 +91,7 @@ export default class Style extends StaticLayout {
     }
 
     render() {
-        if (this.tag) {
-            debugger;
-        }
-
-        if (isInView(this)) {
+        if (this.isInView()) {
             // 画Box
             this.preRender();
 

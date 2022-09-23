@@ -13,12 +13,12 @@ import ClickHandler from "../core/event/ClickHandler";
 import DblClickHandler from "../core/event/DblClickHandler";
 import ContextMenuHandler from "../core/event/ContextMenuHandler";
 import MouseMoveHandler from "../core/event/MouseMoveHandler";
+import MouseWheelHandler from "../core/event/MouseWheelHandler";
+import TouchMoveHandler from "../core/event/TouchMoveHandler";
 
 import SelectionManager from "./selection/manager";
 
-
 import {cellStyle, height, width, strokeColor } from "./meta";
-
 
 export default class Stage {
     constructor(props) {
@@ -71,6 +71,8 @@ export default class Stage {
         new DblClickHandler(this);
         new ContextMenuHandler(this);
         new MouseMoveHandler(this);
+        new MouseWheelHandler(this);
+        new TouchMoveHandler(this);
     }
 
     ctxInit() {

@@ -1,4 +1,4 @@
-import {getScrollbarWidth } from "./utils/util";
+// import {getScrollbarWidth } from "./utils/util";
 
 export const cellStyle = {
     width: 100,
@@ -12,6 +12,6 @@ export const strokeColor = '#e8ebed';
 
 export const containerPadding = 12;
 
-export const getTableViewWidth = () => width - containerPadding * 2 - getScrollbarWidth();
+export const getTableViewWidth = () => width - containerPadding * 2;
 
-export const getTableViewHeight = () => height - containerPadding * 2 - getScrollbarWidth();
+export const getTableViewHeight = () => height - containerPadding * 2;

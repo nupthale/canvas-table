@@ -25,6 +25,10 @@ export default class SelectionRect extends Layer {
 
         const { left, top, width, height } = activeCol;
 
+        if (!activeCol) {
+            return;
+        }
+
         drawStrokeRect(
             ctx,
             left,
@@ -36,7 +40,6 @@ export default class SelectionRect extends Layer {
             4,
         );
 
-        debugger;
         ExpandIndicator.create({
             ...this.props,
             left: left + width,

@@ -33,6 +33,12 @@ export default class TRow extends Layer {
 
         this.stage = props.stage;
         this.rowIndex = props.rowIndex;
+
+        this._fixedLeftCols = null;
+        this._fixedRightCols = null;
+        this._centerCols = null;
+        this._fixedLeftWidth = null;
+        this._fixedRightWidth = null;
     }
 
     getTotalWidth(cols) {
@@ -42,41 +48,66 @@ export default class TRow extends Layer {
     }
 
     get fixedLeftCols() {
-        if (!this.children?.length) {
-            return 0;
+        if (this._fixedLeftCols !== null) {
+            return this._fixedLeftCols;
         }
 
-        return this.children.filter(col => col.fixed === 'left');
+        if (!this.children?.length) {
+            this._fixedLeftCols = [];
+        } else {
+            this._fixedLeftCols = this.children.filter(col => col.fixed === 'left');
+        }
+
+        return this._fixedLeftCols;
     }
 
     get centerCols() {
-        if (!this.children?.length) {
-            return 0;
+        if (this._centerCols !== null) {
+            return this._centerCols;
         }
 
-        return this.children.filter(col => !col.fixed);
+        if (!this.children?.length) {
+            this._centerCols = [];
+        } else {
+            this._centerCols = this.children.filter(col => !col.fixed);
+        }
+
+        return this._centerCols;
     }
 
     get fixedRightCols() {
-        if (!this.children?.length) {
-            return 0;
+        if (this._fixedRightCols !== null) {
+            return this._fixedRightCols;
         }
 
-        return this.children.filter(col => col.fixed === 'right');
+        if (!this.children?.length) {
+           this._fixedRightCols = [];
+        } else {
+            this._fixedRightCols = this.children.filter(col => col.fixed === 'right');
+        }
+
+        return  this._fixedRightCols;
     }
 
     clipCenter(callback) {
-        const fixedLeftWidth = this.getTotalWidth(this.fixedLeftCols);
-        const fixedRightWidth = this.getTotalWidth(this.fixedRightCols);
+        const fixedLeftWidth = this._fixedLeftWidth === null ? this.getTotalWidth(this.fixedLeftCols) : this._fixedLeftWidth;
+        const fixedRightWidth = this._fixedRightWidth === null ? this.getTotalWidth(this.fixedRightCols) : this._fixedRightWidth;
+
+        const clipCenterBox = {
+            left: fixedLeftWidth + containerPadding,
+            top: this.top,
+            width: getTableViewWidth() - fixedLeftWidth - fixedRightWidth,
+            height: this.height,
+        };
 
         clipRect(
             this.ctx,
-            this.getTotalWidth(this.fixedLeftCols) + containerPadding,
-            this.top,
-            getTableViewWidth() - fixedLeftWidth - fixedRightWidth,
-            this.height,
+            clipCenterBox.left,
+            clipCenterBox.top,
+            clipCenterBox.width,
+            clipCenterBox.height,
             () => {
-                callback();
+                callback(clipCenterBox);
             }
         );
     }

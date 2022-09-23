@@ -1,5 +1,5 @@
 import TRow from "./TRow";
-import {createElement} from "../utils/util";
+import {createElement, isInBox} from "../utils/util";
 
 import SelectionRect from "./SelectionRect";
 import ExpandIndicator from './ExpandIndicator';
@@ -15,9 +15,26 @@ export default class SelectedTRow extends TRow {
         this.props = props;
     }
 
+    sortAndRender(children, clipCenterBox) {
+        // 必须clone， 要不然siblings的顺序也被sort了
+        const sortedLayer = [...(children || [])].sort((prev, next) => (prev.zIndex || 0) - (next.zIndex || 0));
+
+        sortedLayer.forEach(child => {
+            if (!clipCenterBox) {
+                child.render();
+            } else {
+                if (isInBox(clipCenterBox, child)) {
+                    child.render();
+                }
+            }
+        });
+    }
+
     renderCenter() {
-        this.clipCenter(() => {
-            this.sortAndRender(this.centerCols);
+        this.clipCenter((clipCenterBox) => {
+
+
+            this.sortAndRender(this.centerCols, clipCenterBox);
 
             this.drawCenterSelection();
         });

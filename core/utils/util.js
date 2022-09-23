@@ -19,7 +19,14 @@ export const isInView = (layer) => {
     const isHorizontalInView = (layer.left + layer.width > 0 && layer.left < layer.ctx.canvas.width / PIXEL_RATIO);
     const isVerticalInView = (layer.top + layer.height > 0 && layer.top < layer.ctx.canvas.height / PIXEL_RATIO);
 
-    return isHorizontalInView || isVerticalInView;
+    return isHorizontalInView && isVerticalInView;
+}
+
+export const isInBox = (box, layer) => {
+    const isHorizontalInView = (layer.left + layer.width > box.left && layer.left < box.left + box.width);
+    const isVerticalInView = (layer.top + layer.height > box.top && layer.top < box.top + box.height);
+
+    return isHorizontalInView && isVerticalInView;
 }
 
 export const createElement = (Constructor, props, children) => {
