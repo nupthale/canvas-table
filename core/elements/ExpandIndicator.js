@@ -26,6 +26,9 @@ export default class ExpandIndicator extends Layer {
 
         this._left = props.left - 5;
         this._top = props.top - 5;
+        this.stage = props.stage;
+
+        this.initEvent();
     }
 
 
@@ -35,6 +38,13 @@ export default class ExpandIndicator extends Layer {
 
     get top() {
         return this._top;
+    }
+
+    initEvent() {
+        this.on('mouseenter', () => {
+            debugger;
+            this.stage.$root.style.cursor = 'drag';
+        });
     }
 }
 

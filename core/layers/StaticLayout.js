@@ -169,4 +169,8 @@ export default class StaticLayout extends Base {
             left: this.left,
         }
     }
+
+    appendChild(layer) {
+        this.children.push(layer);
+    }
 }

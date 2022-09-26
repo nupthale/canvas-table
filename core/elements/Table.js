@@ -8,6 +8,7 @@ export default class Table extends Layer {
 
         return createElement(Table, {
             ...(commonProps),
+            stage,
             style: {
                 direction: 'vertical',
                 width: commonProps.tableWidth,

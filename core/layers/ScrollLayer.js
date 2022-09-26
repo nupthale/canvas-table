@@ -24,7 +24,6 @@ export default class ScrollLayer extends Layer {
     initEvent() {
         this.on('mousewheel', (e) => {
             e.stopPropagation();
-            console.info('####e', e.deltaX);
             this.scrollBy(e.deltaX, e.deltaY);
         });
     }
@@ -56,7 +55,6 @@ export default class ScrollLayer extends Layer {
 
         this.ctx.clip();
 
-        console.info('###scroll', this.scrollLeft, this.scrollTop);
 
         sortedLayer.forEach(child => {
             child.render();

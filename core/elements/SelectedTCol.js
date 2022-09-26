@@ -39,15 +39,12 @@ export default class SelectedTCol extends TCol {
         });
 
         this.on('dblclick', (e) => {
-            console.info('#dblclick', this.rowIndex, this.colIndex);
         });
 
         this.on('mouseenter', () => {
-            console.info('#mouseenter', this.rowIndex, this.colIndex);
         });
 
         this.on('mouseleave', () => {
-            console.info('#mouseleave', this.rowIndex, this.colIndex);
         });
     }
 }

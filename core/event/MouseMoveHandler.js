@@ -81,6 +81,7 @@ export default class MouseMoveHandler {
             y: this.eventY,
             stage: this.stage,
         });
+        console.info('#layerEvent', layerEvent.path);
 
         this.mouseenter(layerEvent);
         this.mouseleave(layerEvent);

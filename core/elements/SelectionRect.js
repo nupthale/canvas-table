@@ -17,6 +17,7 @@ export default class SelectionRect extends Layer {
 
         this.props = props;
         this.stage = props.stage;
+        this.rowIndex = props.rowIndex;
     }
 
     renderBox() {
@@ -25,7 +26,8 @@ export default class SelectionRect extends Layer {
 
         const { left, top, width, height } = activeCol;
 
-        if (!activeCol) {
+        debugger;
+        if (!activeCol || activeCol.rowIndex !== this.rowIndex) {
             return;
         }
 
@@ -45,5 +47,9 @@ export default class SelectionRect extends Layer {
             left: left + width,
             top: top + height,
         }).render();
+    }
+
+    isInView() {
+        return true;
     }
 }
