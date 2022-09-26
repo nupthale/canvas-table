@@ -39,6 +39,8 @@ export default class MouseMoveHandler {
 
         this._handler(newEvt, 'mouseenter');
 
+        console.info('####newEvt', newEvt.path);
+
         this.lastMouseEnterEvt = layerEvent;
     }
 

@@ -28,7 +28,7 @@ export default class Style extends StaticLayout {
     }
 
     get zIndex() {
-        return this.style.zIndex;
+        return this.style?.zIndex;
     }
 
     clear() {

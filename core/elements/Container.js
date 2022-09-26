@@ -1,6 +1,6 @@
 import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
-import {clipRect, shadowRect} from "../utils/draw";
+import {shadowRect} from "../utils/draw";
 import {containerPadding, getTableViewWidth, getTableViewHeight, width, height} from "../meta";
 
 import ScrollLayer from "../layers/ScrollLayer";

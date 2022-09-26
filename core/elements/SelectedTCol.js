@@ -4,9 +4,10 @@ import Tag from "./Tag";
 
 export default class SelectedTCol extends TCol {
     static create(stage, props) {
-        const { commonProps } = stage;
+        const { commonProps, columns } = stage;
+        const column = columns[props.colIndex];
 
-        let children = this.createLayerText(commonProps, props.text);
+        let children = this.createLayerText(commonProps, props.text, column.dataIndex === 'rowIndex' ? 'center' : 'left');
 
         if (props.colIndex === 3) {
             children = Tag.create({
@@ -23,7 +24,6 @@ export default class SelectedTCol extends TCol {
         super(props);
 
         this.stage = props.stage;
-        this.tag = 'col';
 
         this.initEvent();
     }

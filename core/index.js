@@ -2,7 +2,7 @@ import {PIXEL_RATIO} from "./utils/util";
 
 import Table from "./elements/Table";
 import THead from "./elements/THead";
-import TBody from "./elements/TBody";
+import SelectedTBody from "./elements/SelectedTBody";
 import TRow from "./elements/TRow";
 import TCol from "./elements/TCol";
 import SelectedTCol from "./elements/SelectedTCol";
@@ -22,8 +22,8 @@ import {cellStyle, height, width, strokeColor } from "./meta";
 
 export default class Stage {
     constructor(props) {
-        this.columns = props.columns;
-        this.dataSource = props.dataSource;
+        this.columns = this.getColumns(props);
+        this.dataSource = this.getDataSource(props);
 
         this.$canvas = null;
         this.$root = props.$root;
@@ -131,7 +131,27 @@ export default class Stage {
             return SelectedTRow.create(this, cols, rowIndex + 1);
         });
 
-        return TBody.create(this, trs);
+        return SelectedTBody.create(this, trs);
+    }
+
+    getColumns(props) {
+        const columns = props.columns || [];
+
+        columns.unshift(
+            {title: '', dataIndex: 'rowIndex', fixed: 'left', width: 60 },
+        );
+
+        return columns;
+    }
+
+    getDataSource(props) {
+        let dataSource = props.dataSource || [];
+        return dataSource.map((row, rowIndex) => {
+            return {
+                rowIndex,
+                ...row,
+            }
+        });
     }
 
     updateView() {

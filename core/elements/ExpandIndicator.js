@@ -23,12 +23,14 @@ export default class ExpandIndicator extends Layer {
 
     constructor(props) {
         super(props);
-
-        this._left = props.left - 5;
-        this._top = props.top - 5;
         this.stage = props.stage;
 
         this.initEvent();
+    }
+
+    setPos(left, top) {
+        this._left = left - 5;
+        this._top = top - 5;
     }
 
 
@@ -42,7 +44,6 @@ export default class ExpandIndicator extends Layer {
 
     initEvent() {
         this.on('mouseenter', () => {
-            debugger;
             this.stage.$root.style.cursor = 'drag';
         });
     }

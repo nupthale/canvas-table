@@ -98,10 +98,11 @@ export default class StaticLayout extends Base {
         return parentTop + preSiblingTop - parentScrollTop;
     }
 
+
     get width() {
-        if (this._width !== undefined) {
-            return this._width;
-        }
+        // if (this._width !== undefined) {
+        //     return this._width;
+        // }
 
         const parentInnerWidth = this.parent ? this.parent.innerWidth : 0;
         this._width = percentCalc(this.style.width, () => this.parent ? parentInnerWidth : 0);
@@ -109,18 +110,18 @@ export default class StaticLayout extends Base {
     }
 
     get innerWidth() {
-        if (this._innerWidth !== undefined) {
-            return this._innerWidth;
-        }
+        // if (this._innerWidth !== undefined) {
+        //     return this._innerWidth;
+        // }
 
         this._innerWidth = this.width - this.padding.left - this.padding.right;
         return this._innerWidth;
     }
 
     get height() {
-        if (this._height !== undefined) {
-            return this._height;
-        }
+        // if (this._height !== undefined) {
+        //     return this._height;
+        // }
 
         const parentInnerHeight = this.parent ? this.parent.innerHeight : 0;
         this._height = percentCalc(this.style.height, () => this.parent ? parentInnerHeight : 0)
@@ -128,9 +129,9 @@ export default class StaticLayout extends Base {
     }
 
     get innerHeight() {
-        if (this._innerHeight !== undefined) {
-            return this._innerHeight;
-        }
+        // if (this._innerHeight !== undefined) {
+        //     return this._innerHeight;
+        // }
 
         this._innerHeight = this.height - this.padding.top - this.padding.bottom;
         return this._innerHeight;

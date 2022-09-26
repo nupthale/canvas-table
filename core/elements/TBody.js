@@ -2,7 +2,7 @@ import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
 
 import {cellStyle, containerPadding, getTableViewWidth} from "../meta";
-import {clipRect} from "../utils/draw";
+import {clipRect, shadowRect} from "../utils/draw";
 
 export default class TBody extends Layer {
     static create(stage, trs) {
@@ -29,6 +29,8 @@ export default class TBody extends Layer {
 
         this._fixedLeftWidth = null;
         this._fixedRightWidth = null;
+
+        this.selectionRect = props.selectionRect;
     }
 
     getTotalWidth(cols) {
@@ -136,7 +138,6 @@ export default class TBody extends Layer {
         const fixedLeftWidth = this.fixedLeftWidth;
         const fixedRightWidth = this.fixedRightWidth;
 
-        debugger;
         const clipCenterBox = {
             left: fixedLeftWidth + containerPadding,
             top: this.top,
@@ -159,16 +160,47 @@ export default class TBody extends Layer {
     renderCenter() {
         this.clipCenter(() => {
             this.sortAndRender(this.centerCols);
+
+            if (!this.selectionRect.isFixedCol()) {
+                this.selectionRect.render();
+            }
         });
     }
 
     renderFixedLeft() {
+        if (this.fixedLeftCols?.length) {
+            this.drawLeftShadow();
+        }
+
         this.sortAndRender(this.fixedLeftCols);
     }
 
     renderFixedRight() {
-        debugger;
+        if (this.fixedRightCols?.length) {
+            this.drawRightShadow();
+        }
+
         this.sortAndRender(this.fixedRightCols);
+    }
+
+    drawLeftShadow() {
+        shadowRect({
+            ctx: this.ctx,
+            x: containerPadding,
+            y: containerPadding,
+            w: this.fixedLeftWidth,
+            h: this.height,
+        });
+    }
+
+    drawRightShadow() {
+        shadowRect({
+            ctx: this.ctx,
+            x: this.fixedRightCols[0].left,
+            y: containerPadding,
+            w: this.fixedRightWidth,
+            h: this.height,
+        });
     }
 
     renderChildren() {
@@ -176,5 +208,9 @@ export default class TBody extends Layer {
 
         this.renderFixedLeft();
         this.renderFixedRight();
+
+        if (this.selectionRect.isFixedCol()) {
+            this.selectionRect.render();
+        }
     }
 }

@@ -21,7 +21,7 @@ export default class TCol extends Layer {
         backgroundColor: "#fff",
     }
 
-    static createLayerText(commonProps, text) {
+    static createLayerText(commonProps, text, align) {
         return createElement(LayerText, {
             ...commonProps,
             text,
@@ -31,12 +31,14 @@ export default class TCol extends Layer {
                 padding: [0, 0, 0, 0],
                 border: [],
                 color: "#666",
+                align,
             }
         }, []);
     }
 
     static getColProps(stage, props) {
-        const { commonProps } = stage;
+        const { commonProps, columns } = stage;
+        const column = columns[props.colIndex];
 
         return {
             ...commonProps,
@@ -46,16 +48,18 @@ export default class TCol extends Layer {
             fixed: props.fixed,
             style: {
                 ...this.defaultColStyle,
+                width: column.width || this.defaultColStyle.width,
                 zIndex: props.fixed ? 1 : 0,
             }
         };
     }
 
     static create(stage, props) {
-        const { commonProps } = stage;
+        const { commonProps, columns } = stage;
+        const column = columns[props.colIndex];
 
         return createElement(TCol, this.getColProps(stage, props),
-            [this.createLayerText(commonProps, props.text)]
+            [this.createLayerText(commonProps, props.text, column.dataIndex === 'rowIndex' ? 'center' : 'left')]
         )
     }
 

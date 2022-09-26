@@ -1,7 +1,7 @@
 
 export const columns = [
     {title: 'avatar', dataIndex: 'avatar', fixed: 'left' },
-    {title: 'name',dataIndex: 'name', fixed: 'left' },
+    {title: 'name',dataIndex: 'name' },
     {title: 'age', dataIndex: 'age'},
     {title: 'address', dataIndex: 'address' },
     {title: 'avatar', dataIndex: 'avatar' },
