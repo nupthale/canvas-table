@@ -12,9 +12,10 @@ export const drawLine = (
         ctx.save();
         ctx.strokeStyle = color;
     }
+
     ctx.beginPath();
-    ctx.moveTo(startX + 0.5, startY + 0.5);
-    ctx.lineTo(endX + 0.5, endY + 0.5);
+    ctx.moveTo(startX + 0, startY + 0);
+    ctx.lineTo(endX + 0, endY + 0);
     ctx.closePath();
     ctx.stroke();
 

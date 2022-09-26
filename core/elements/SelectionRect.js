@@ -1,8 +1,9 @@
 import Layer from "../layers/Layer";
 import {createElement} from "../utils/util";
-import {drawStrokeRect} from "../utils/draw";
+import {drawRect, drawStrokeRect} from "../utils/draw";
 
 import ExpandIndicator from "./ExpandIndicator";
+import {act} from "react-dom/test-utils";
 
 
 export default class SelectionRect extends Layer {
@@ -23,10 +24,10 @@ export default class SelectionRect extends Layer {
     constructor(props) {
         super(props);
 
-        this.test = true;
-
         this.props = props;
         this.stage = props.stage;
+
+        this.trs = props.trs || [];
 
         this.expandIndicator = this.children[0];
     }
@@ -53,8 +54,8 @@ export default class SelectionRect extends Layer {
         );
     }
 
-    renderChildren() {
-        const { selectionManager, ctx } = this.stage;
+    preRender() {
+        const { selectionManager } = this.stage;
         const { activeCol } = selectionManager;
 
         const { left, top, width, height } = activeCol;
@@ -65,7 +66,7 @@ export default class SelectionRect extends Layer {
 
         this.expandIndicator.setPos(left + width, top + height);
 
-        this.expandIndicator.render();
+        // this.expandIndicator.render();
     }
 
     isInView() {

@@ -30,5 +30,7 @@ export default class TRow extends Layer {
 
         this.stage = props.stage;
         this.rowIndex = props.rowIndex;
+
+        this.tag = 'row';
     }
 }

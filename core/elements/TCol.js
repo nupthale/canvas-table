@@ -70,6 +70,8 @@ export default class TCol extends Layer {
 
         this.rowIndex = props.rowIndex;
         this.colIndex = props.colIndex;
+
+        this.tag = 'col';
     }
 
     get left() {

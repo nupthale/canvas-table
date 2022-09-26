@@ -25,6 +25,9 @@ export default class ExpandIndicator extends Layer {
         super(props);
         this.stage = props.stage;
 
+
+        this.tag = 'expandIndicator';
+
         this.initEvent();
     }
 
