@@ -44,8 +44,12 @@ export default class ExpandIndicator extends Layer {
 
     initEvent() {
         this.on('mouseenter', () => {
-            this.stage.$root.style.cursor = 'drag';
+            this.stage.$root.style.cursor = 'crosshair';
         });
+
+        this.on('mouseleave', () => {
+            this.stage.$root.style.cursor = 'cell';
+        })
     }
 }
 
