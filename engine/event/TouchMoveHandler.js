@@ -1,4 +1,4 @@
-import LayerEvent from "./LayerEvent";
+import Event from "./Event";
 
 export default class TouchMoveHandler {
     constructor(stage) {
@@ -29,7 +29,7 @@ export default class TouchMoveHandler {
         this.eventX = e.clientX - left;
         this.eventY = e.clientY - top;
 
-        this.touchStartEvt = LayerEvent.create({
+        this.touchStartEvt = Event.create({
             type: 'touchstart',
             x: this.eventX,
             y: this.eventY,

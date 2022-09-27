@@ -1,10 +1,10 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
-import {shadowRect} from "../utils/draw";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
+import {shadowRect} from "../../engine/utils/draw";
 
 import { cellStyle, containerPadding } from "../meta";
 
-export default class THead extends Layer {
+export default class THead extends Element {
     static create(stage, tr) {
         const { commonProps, fixedHeader } = stage;
 

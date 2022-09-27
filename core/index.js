@@ -1,4 +1,4 @@
-import {PIXEL_RATIO} from "./utils/util";
+import {PIXEL_RATIO} from "../engine/utils/util";
 
 import Table from "./elements/Table";
 import THead from "./elements/THead";
@@ -9,12 +9,16 @@ import SelectedTCol from "./elements/SelectedTCol";
 import SelectedTRow from "./elements/SelectedTRow";
 import Container from "./elements/Container";
 
-import ClickHandler from "../core/event/ClickHandler";
-import DblClickHandler from "../core/event/DblClickHandler";
-import ContextMenuHandler from "../core/event/ContextMenuHandler";
-import MouseMoveHandler from "../core/event/MouseMoveHandler";
-import MouseWheelHandler from "../core/event/MouseWheelHandler";
-import TouchMoveHandler from "../core/event/TouchMoveHandler";
+import Layer from "../engine/layer/Layer";
+import Render from "../engine/render/Render";
+
+
+import ClickHandler from "../engine/event/ClickHandler";
+import DblClickHandler from "../engine/event/DblClickHandler";
+import ContextMenuHandler from "../engine/event/ContextMenuHandler";
+import MouseMoveHandler from "../engine/event/MouseMoveHandler";
+import MouseWheelHandler from "../engine/event/MouseWheelHandler";
+import TouchMoveHandler from "../engine/event/TouchMoveHandler";
 
 import SelectionManager from "./selection/manager";
 
@@ -34,10 +38,6 @@ export default class Stage {
 
         this.selectionManager = new SelectionManager(this);
 
-        this.scroller = {
-            scrollTop: 0,
-            scrollLeft: 0,
-        };
 
         this.init();
     }
@@ -89,7 +89,6 @@ export default class Stage {
             ctx: this.ctx,
             tableWidth: this.tableWidth,
             tableHeight: this.tableHeight,
-            scroller: this.scroller,
         }
     }
 
@@ -138,7 +137,7 @@ export default class Stage {
         const columns = props.columns || [];
 
         columns.unshift(
-            {title: '', dataIndex: 'rowIndex', fixed: 'left', width: 60 },
+            {title: '', dataIndex: 'rowIndex', fixed: 'left', width: 60, align: 'center' },
         );
 
         return columns;
@@ -156,21 +155,23 @@ export default class Stage {
 
     updateView() {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-        this.container.render();
-    }
-
-    onScroll(scrollLeft, scrollTop) {
-        this.scroller.scrollLeft = scrollLeft;
-        this.scroller.scrollTop = scrollTop;
-
-        this.updateView();
+        // this.container.render();
     }
 
     render() {
-        this.table = Table.create(this, this.getTHead(), this.getTBody());
+        this.table = Table.create(
+            this,
+            this.getTHead(),
+            this.getTBody()
+        );
 
-        this.container = Container.create(this, this.table);
+        this.domTree = Container.create(this, this.table);
+        this.layoutTree = this.domTree.doLayout();
+        this.layerTree = Layer.create(this.layoutTree, null);
 
-        this.updateView();
+        console.info('#layoutTree', this.layoutTree);
+
+        const renderer = new Render(this.ctx, this.layerTree);
+        renderer.paint();
     }
 }

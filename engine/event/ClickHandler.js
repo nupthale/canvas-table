@@ -1,7 +1,9 @@
-import LayerEvent from "./LayerEvent";
+import Event from "./Event";
 
-export default class MouseWheelHandler {
+export default class ClickHandler {
     constructor(stage) {
+        this.eventX = 0;
+        this.eventY = 0;
         this.stage = stage;
         this.$root = this.stage.$root;
 
@@ -9,31 +11,28 @@ export default class MouseWheelHandler {
     }
 
     init() {
-        this.$root.addEventListener('mousewheel', e => {
-            e.preventDefault();
-            this.handler(e);
+        this.$root.addEventListener('click', e => {
+            this.handler('click', e);
         });
     }
 
-    handler(e) {
+    handler(type, e) {
         const {left, top} = this.$root.getBoundingClientRect();
         this.eventX = e.clientX - left;
         this.eventY = e.clientY - top;
 
-        const layerEvent = LayerEvent.create({
-            type: 'mousewheel',
+        const layerEvent = Event.create({
+            type,
             x: this.eventX,
             y: this.eventY,
-            originEvt: e,
-            deltaX: e.deltaX,
-            deltaY: e.deltaY,
             stage: this.stage,
         });
 
         layerEvent.path.forEach(layer => {
             if (!layerEvent.isPropagationStopped) {
-                layer.emit('mousewheel', layerEvent);
+                layer.emit(type, layerEvent);
             }
         })
     }
+
 }

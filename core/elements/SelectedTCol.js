@@ -1,7 +1,6 @@
 import TCol from "./TCol";
-import {createElement} from "../utils/util";
+import {createElement} from "../../engine/utils/util";
 import Tag from "./Tag";
-import {strokeColor} from "../meta";
 
 export default class SelectedTCol extends TCol {
     static create(stage, props) {

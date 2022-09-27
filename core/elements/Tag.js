@@ -1,8 +1,8 @@
-import Layer from "../layers/Layer";
-import LayerText from "../layers/LayerText";
-import {createElement} from "../utils/util";
+import Element from "../../engine/dom/Element";
+import Text from "../../engine/dom/Text";
+import {createElement} from "../../engine/utils/util";
 
-export default class Tag extends Layer {
+export default class Tag extends Element {
     static create(props) {
         const { commonProps } = props.stage;
 
@@ -14,12 +14,13 @@ export default class Tag extends Layer {
                 width: 60,
                 height: 22,
                 padding: [0, 0, 0, 0],
+                color: '#7B21C3',
+                textAlign: 'center',
             }
-        }, [createElement(LayerText, {
+        }, [createElement(Text, {
             ...commonProps,
             text: '测试中',
             style: {
-                color: '#7B21C3',
                 align: 'center',
                 width: '100%',
                 height: '100%',

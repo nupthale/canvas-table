@@ -1,12 +1,10 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
-import {drawRect, drawStrokeRect} from "../utils/draw";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
+import {drawRect, drawStrokeRect} from "../../engine/utils/draw";
 
 import ExpandIndicator from "./ExpandIndicator";
-import {act} from "react-dom/test-utils";
 
-
-export default class SelectionRect extends Layer {
+export default class SelectionRect extends Element {
     static create(props) {
         return createElement(SelectionRect, {
             ...props,

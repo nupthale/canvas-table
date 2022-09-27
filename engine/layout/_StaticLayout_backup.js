@@ -3,9 +3,11 @@ import Base from "./Base";
 import {isInView, percentCalc} from "../utils/util";
 
 // 布局相关样式 + 盒模型
-export default class StaticLayout extends Base {
+export default class _StaticLayout_backup extends Base {
     constructor(props) {
         super(props);
+
+        this.dom = dom;
 
         this.style = props.style;
     }

@@ -1,5 +1,3 @@
-import {containerPadding, getTableViewWidth} from "../meta";
-
 export const drawLine = (
     ctx,
     startX,

@@ -1,5 +1,5 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
 
 const border = [
     { color: '#4580e6' },
@@ -8,7 +8,7 @@ const border = [
     { color: '#4580e6' },
 ];
 
-export default class ExpandIndicator extends Layer {
+export default class ExpandIndicator extends Element {
     static create(props) {
         return createElement(ExpandIndicator, {
             ...props,

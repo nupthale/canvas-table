@@ -1,9 +1,9 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
 
 import { cellStyle } from "../meta";
 
-export default class TRow extends Layer {
+export default class TRow extends Element {
     static getDefaultProps(stage, rowIndex) {
         const { commonProps } = stage;
 

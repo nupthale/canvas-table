@@ -1,14 +1,12 @@
-import { Subject, filter, tap} from "rxjs";
+import {filter, Subject, tap} from "rxjs";
 
+const event$ = new Subject({});
 
-export default class Base {
+// https://stackoverflow.com/questions/9979172/difference-between-node-object-and-element-object
+export default class Node {
     constructor(props) {
-        this.event$ = new Subject({});
-
         // 全局Context
         this.ctx = props.ctx;
-
-        this.scroller = props.scroller;
 
         // 层级关系
         this.parent = null;
@@ -43,31 +41,34 @@ export default class Base {
 
     set children(newChildren) {
         this._children = newChildren || [];
+        const me = this;
 
         newChildren.forEach(child => {
-            child.parent = this;
+            child.parent = me;
+        })
+    }
+
+    isChild(node) {
+        return this.children.some(child => {
+            if (child === node) {
+                return true;
+            }
+
+            return child.isChild(node);
         })
     }
 
     on(name, handler) {
-        return this.event$.pipe(
+        return event$.pipe(
             filter((e) => e.name === name),
             tap((e) => handler(e.value)),
         ).subscribe();
     }
 
     emit(name, value) {
-        this.event$.next({
+        event$.next({
             name,
             value,
         });
-    }
-
-    makeChildren(children) {
-        this.children = children;
-
-        this.children.forEach(child => {
-            child.parent = this;
-        })
     }
 }

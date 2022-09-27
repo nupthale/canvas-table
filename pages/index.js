@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-import CanvasTable from "../components/CanvasTable";
+import CanvasTable from "../core/components/CanvasTable";
 
 
 export default function Home() {

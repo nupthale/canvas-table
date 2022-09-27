@@ -1,28 +1,29 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
 
 import { cellStyle, strokeColor, containerPadding, getTableViewWidth } from "../meta";
-import LayerText from "../layers/LayerText";
+import Text from "../../engine/dom/Text";
 
 const border = [
-    { color: strokeColor },
-    { color: strokeColor },
-    { color: strokeColor },
-    { color: strokeColor },
+    { color: strokeColor, width: 1 },
+    { color: strokeColor, width: 1 },
+    { color: strokeColor, width: 1 },
+    { color: strokeColor, width: 1 },
 ];
 
-export default class TCol extends Layer {
+export default class TCol extends Element {
     static defaultColStyle = {
-        direction: 'horizontal',
+        display: 'inline-block',
         width: cellStyle.width,
         height: cellStyle.height,
         border,
         padding: [4, 8, 4, 8],
+        color: "#666",
         backgroundColor: "#fff",
     }
 
     static createLayerText(commonProps, text, align) {
-        return createElement(LayerText, {
+        return createElement(Text, {
             ...commonProps,
             text,
             style: {
@@ -30,8 +31,6 @@ export default class TCol extends Layer {
                 height: '100%',
                 padding: [0, 0, 0, 0],
                 border: [],
-                color: "#666",
-                align,
             }
         }, []);
     }
@@ -48,6 +47,8 @@ export default class TCol extends Layer {
             fixed: props.fixed,
             style: {
                 ...this.defaultColStyle,
+                textAlign: column.align || 'left',
+                // position: props.fixed ? 'sticky' : 'static',
                 width: column.width || this.defaultColStyle.width,
                 zIndex: props.fixed ? 1 : 0,
             }

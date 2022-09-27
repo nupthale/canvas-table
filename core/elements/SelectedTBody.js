@@ -1,9 +1,7 @@
 import TBody from "./TBody";
-import {createElement} from "../utils/util";
+import {createElement} from "../../engine/utils/util";
 import {cellStyle} from "../meta";
 import SelectionRect from "./SelectionRect";
-import {drawRect} from "../utils/draw";
-
 
 export default class SelectedTBody extends TBody {
     static create(stage, trs) {

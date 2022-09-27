@@ -1,13 +1,13 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
-import {shadowRect} from "../utils/draw";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
+import {shadowRect} from "../../engine/utils/draw";
 import {containerPadding, getTableViewWidth, getTableViewHeight, width, height} from "../meta";
 
-import ScrollLayer from "../layers/ScrollLayer";
+import Scrollable from "../../engine/dom/Scrollable";
 
-export default class Container extends Layer {
+export default class Container extends Element {
     static create(stage, table) {
-        const scroller = createElement(ScrollLayer, {
+        const scrollable = createElement(Scrollable, {
             ctx: stage.ctx,
             stage,
             scrollWidth: stage.tableWidth,
@@ -29,8 +29,7 @@ export default class Container extends Layer {
                 border: [],
                 padding: [containerPadding, containerPadding, containerPadding, containerPadding],
             },
-            scroller: stage.scroller,
-        }, [scroller])
+        }, [scrollable])
     }
 
     constructor(props) {

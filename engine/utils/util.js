@@ -1,6 +1,3 @@
-import {containerPadding} from "../meta";
-
-
 export const percentCalc = (number, parentNumber) => {
     if (typeof number === 'string') {
         if (/^\d{1,2}%$/.test(number)) {
@@ -15,16 +12,25 @@ export const percentCalc = (number, parentNumber) => {
     }
 };
 
-export const isInView = (layer) => {
-    const isHorizontalInView = (layer.left + layer.width > 0 && layer.left < layer.ctx.canvas.width / PIXEL_RATIO);
-    const isVerticalInView = (layer.top + layer.height > 0 && layer.top < layer.ctx.canvas.height / PIXEL_RATIO);
+export const isInView = (element) => {
+    const style = element.getComputedStyle();
+    const layout = element.getLayout();
+
+    const isHorizontalInView = (layout.x + style.width > 0 && layout.x < element.ctx.canvas.width / PIXEL_RATIO);
+    const isVerticalInView = (layout.y + style.height > 0 && layout.y < element.ctx.canvas.height / PIXEL_RATIO);
 
     return isHorizontalInView && isVerticalInView;
 }
 
-export const isInBox = (box, layer) => {
-    const isHorizontalInView = (layer.left + layer.width > box.left && layer.left < box.left + box.width);
-    const isVerticalInView = (layer.top + layer.height > box.top && layer.top < box.top + box.height);
+export const isInBox = (targetElement, element) => {
+    const style = element.getComputedStyle();
+    const layout = element.getLayout();
+
+    const targetStyle = targetElement.getComputedStyle();
+    const targetLayout = targetElement.getLayout();
+
+    const isHorizontalInView = (layout.x + style.width > targetLayout.x && layout.x < targetLayout.x + targetStyle.width);
+    const isVerticalInView = (layout.y + style.height > targetLayout.y && layout.y < targetLayout.y + targetStyle.height);
 
     return isHorizontalInView && isVerticalInView;
 }

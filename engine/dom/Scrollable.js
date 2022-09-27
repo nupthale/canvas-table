@@ -1,7 +1,9 @@
-import Layer from "./Layer";
+import Element from "./Element";
 
-export default class ScrollLayer extends Layer {
+export default class Scrollable extends Element {
     constructor(props) {
+        props.style.overflow = 'auto';
+
         super(props);
 
         this.scrollLeft = 0;

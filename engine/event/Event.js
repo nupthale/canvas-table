@@ -1,15 +1,15 @@
 import {dfs} from "../utils/tree";
 
-export default class LayerEvent {
+export default class Event {
     static create(props) {
-        return new LayerEvent({
+        return new Event({
             ...props,
         });
     }
 
     constructor(props) {
         this.stage = props.stage;
-        this.root = this.stage.container;
+        this.root = this.stage.layoutTree;
 
         this.type = props.type;
         this.x = props.x;
@@ -36,7 +36,7 @@ export default class LayerEvent {
     copy(changedProps) {
         const { x, y, path, type, stage } = this;
 
-        return LayerEvent.create({
+        return Event.create({
             x,
             y,
             path: [...(path || [])],
@@ -57,9 +57,9 @@ export default class LayerEvent {
             const { x, y } = this;
             const result = [];
 
-            dfs(this.root, (layer) => {
-                if (layer.isHit(x, y)) {
-                    result.push(layer);
+            dfs(this.root, (node) => {
+                if (!node.isTextNode && node.isHit(x, y)) {
+                    result.push(node);
                     return true;
                 }
 

@@ -1,10 +1,10 @@
-import Layer from "../layers/Layer";
-import {createElement} from "../utils/util";
+import Element from "../../engine/dom/Element";
+import {createElement} from "../../engine/utils/util";
 
 import {cellStyle, containerPadding, getTableViewWidth} from "../meta";
-import {clipRect, shadowRect} from "../utils/draw";
+import {clipRect, shadowRect} from "../../engine/utils/draw";
 
-export default class TBody extends Layer {
+export default class TBody extends Element {
     static create(stage, trs) {
         const { commonProps, dataSource } = stage;
 

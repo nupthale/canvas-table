@@ -1,9 +1,9 @@
-import Layer from "../layers/Layer";
+import Element from "../../engine/dom/Element";
 
-import {createElement} from "../utils/util";
-import {drawRect} from "../utils/draw";
+import {createElement} from "../../engine/utils/util";
+import {drawRect} from "../../engine/utils/draw";
 
-export default class Table extends Layer {
+export default class Table extends Element {
     static create(stage, thead, tbody) {
         const { commonProps } = stage;
 
@@ -11,7 +11,8 @@ export default class Table extends Layer {
             ...(commonProps),
             stage,
             style: {
-                direction: 'vertical',
+                position: 'relative',
+                zIndex: 1,
                 width: commonProps.tableWidth,
                 height: commonProps.tableHeight,
                 padding: [0, 0, 0, 0],
@@ -27,9 +28,7 @@ export default class Table extends Layer {
         this.stage = props.stage;
         this.thead = props.children[0];
         this.tbody = props.children[1];
-        this.trs = this.tbody.children.filter(child => child.tag === 'row');
-
-
+        this.trs = this.tbody?.children.filter(child => child.tag === 'row');
     }
 
     postRender() {
@@ -59,7 +58,6 @@ export default class Table extends Layer {
             // header
 
             const headerCol = this.thead.children[0].children.filter(col => colIndex === col.colIndex)[0];
-            debugger;
             drawRect(
                 this.ctx,
                 headerCol.left,

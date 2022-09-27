@@ -1,12 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
-import Stage from "../core/index";
+import Stage from "../index";
 
 import Scroller from './Scroller';
 
 import {columns, dataSource} from "./mock";
 
 
-import {width, height} from "../core/meta";
+import {width, height} from "../meta";
 
 export default function CanvasTable() {
     const mountRef = useRef();

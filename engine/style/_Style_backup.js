@@ -19,7 +19,7 @@ const defaultStyle = {
 
 // 与布局相关的样式部分在Layout
 // 与非布局相关的样式部分在Style
-export default class Style extends StaticLayout {
+export default class _Style_backup extends StaticLayout {
     constructor(props) {
         super(props);
 
@@ -29,11 +29,6 @@ export default class Style extends StaticLayout {
 
     get zIndex() {
         return this.style?.zIndex;
-    }
-
-    clear() {
-        const {left, top, height, width} = this;
-        this.ctx.clearRect(left, top, width, height);
     }
 
     renderBox() {

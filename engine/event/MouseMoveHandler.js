@@ -1,4 +1,4 @@
-import LayerEvent from "./LayerEvent";
+import Event from "./Event";
 
 export default class MouseMoveHandler {
     constructor(stage) {
@@ -78,7 +78,7 @@ export default class MouseMoveHandler {
         this.eventX = e.clientX - left;
         this.eventY = e.clientY - top;
 
-        const layerEvent = LayerEvent.create({
+        const layerEvent = Event.create({
             x: this.eventX,
             y: this.eventY,
             stage: this.stage,
