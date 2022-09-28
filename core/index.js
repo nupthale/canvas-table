@@ -84,14 +84,6 @@ export default class Stage {
         this.ctx.strokeStyle = strokeColor;
     }
 
-    get commonProps() {
-        return {
-            ctx: this.ctx,
-            tableWidth: this.tableWidth,
-            tableHeight: this.tableHeight,
-        }
-    }
-
     get tableWidth() {
         return this.columns.length * cellStyle.width;
     }

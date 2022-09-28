@@ -8,16 +8,11 @@ export default class SelectedTBody extends TBody {
         const { commonProps, dataSource } = stage;
 
         const selectionRect = SelectionRect.create({
-            stage,
-            ctx: stage.ctx,
             trs,
         }, []);
 
         return createElement(SelectedTBody, {
-            stage,
-            ...commonProps,
             style: {
-                direction: 'vertical',
                 width: commonProps.tableWidth,
                 height: dataSource.length * cellStyle.height,
                 padding: [0, 0, 0, 0],

@@ -8,8 +8,6 @@ import Scrollable from "../../engine/dom/Scrollable";
 export default class Container extends Element {
     static create(stage, table) {
         const scrollable = createElement(Scrollable, {
-            ctx: stage.ctx,
-            stage,
             scrollWidth: stage.tableWidth,
             scrollHeight: stage.tableHeight,
             style: {
@@ -21,8 +19,6 @@ export default class Container extends Element {
         }, [table]);
 
         return createElement(Container, {
-            ctx: stage.ctx,
-            stage,
             style: {
                 width,
                 height,

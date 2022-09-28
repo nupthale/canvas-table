@@ -30,3 +30,9 @@ export const getPreSiblingHeight = (element) => {
 
     return preSiblingTop;
 }
+
+export const isPositionedNode = (element) => {
+    const style = element.getComputedStyle();
+
+    return style.position !== 'static';
+}

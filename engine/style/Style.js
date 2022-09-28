@@ -37,7 +37,7 @@ export default class Style {
             ...customStyle,
         };
 
-        const parent = this.element.parent || {};
+        const parent = this.element.parent;
 
         computedStyle.padding = parsePadding(computedStyle.padding);
         computedStyle.border = parseBorder(computedStyle.border);

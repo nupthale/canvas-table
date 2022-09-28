@@ -11,29 +11,34 @@ export default class ElementRender {
         const style = element.getComputedStyle();
         const layout = element.getLayout();
 
-        const { backgroundColor, border, width, height } = style;
+        const { backgroundColor, border, margin, width, height } = style;
         const { x, y } = layout;
 
+        const startX = x + margin.left || 0;
+        const startY = y + margin.top || 0;
+        const rectWidth = width - margin.left || 0 - margin.right || 0;
+        const rectHeight = height - margin.top || 0 - margin.bottom || 0;
+
         if (backgroundColor) {
-            drawRect(this.ctx, x, y, width, height, backgroundColor);
+            drawRect(this.ctx, startX, startY, rectWidth, rectHeight, backgroundColor);
         }
 
         const { top, right, bottom, left } = border;
 
         if (top) {
-            drawLine(this.ctx, x, y, x + width, top, top.color);
+            drawLine(this.ctx, startX, startY, startX + rectWidth, startY, top.color);
         }
 
         if (right) {
-            drawLine(this.ctx, x + width, y, x + width, y + height, right.color);
+            drawLine(this.ctx, startX, startX + rectWidth, startY, startX + rectWidth, startY + rectHeight, right.color);
         }
 
         if (bottom) {
-            drawLine(this.ctx, x, y + height, x + width, y + height, bottom.color);
+            drawLine(this.ctx, startX, startX, startY + rectHeight, startX + rectWidth, startY + rectHeight, bottom.color);
         }
 
         if (left) {
-            drawLine(this.ctx, x, y, x, y + height, left.color);
+            drawLine(this.ctx, startX, startX, startY, startX, startY + rectHeight, left.color);
         }
     }
 

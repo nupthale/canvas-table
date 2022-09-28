@@ -1,3 +1,6 @@
+import {isNumber} from "lodash-es";
+
+
 import {dfs} from "../utils/tree";
 
 import ElementRender from "./ElementRender";
@@ -11,10 +14,13 @@ export default class Render {
         this.ctx = ctx;
         this.rootLayer = rootLayer;
 
-        this.crtOverflowNode = null;
+        this.opacityNodes = [];
+        this.overflowNodes = [];
     }
 
     paint() {
+        this.ctx.save();
+
         dfs(this.rootLayer, (layer) => {
             // 先渲染root, 再渲染nodes, 再渲染children
             const nodes = layer.nodes || [];
@@ -22,6 +28,8 @@ export default class Render {
             this.renderElement(layer.rootNode);
             this.renderNodes(nodes);
         });
+
+        this.ctx.restore();
     }
 
     renderNodes(nodes) {
@@ -35,9 +43,13 @@ export default class Render {
     }
 
     makeClip(element) {
-        if (this.crtOverflowNode) {
-            if (!this.crtOverflowNode.isChild(element)) {
+        if (this.overflowNodes?.length) {
+            const crtOverflowNode = this.overflowNodes[this.overflowNodes.length - 1];
+
+            if (!crtOverflowNode?.isChild(element)) {
                 this.ctx.restore();
+
+                this.overflowNodes.pop();
             }
         }
 
@@ -53,11 +65,36 @@ export default class Render {
                 style.height,
             );
             this.ctx.clip();
+
+            this.overflowNodes.push(element);
+        }
+    }
+
+    makeOpacity(element) {
+
+        if (this.opacityNodes?.length) {
+            const crtOpacityNode = this.opacityNodes[this.opacityNodes.length - 1];
+
+            if (!crtOpacityNode?.isChild(element)) {
+                this.ctx.restore();
+
+                this.opacityNodes.pop();
+            }
+        }
+
+        const style = element.getComputedStyle();
+        if (isNumber(style.opacity) && style.opacity < 1) {
+            this.ctx.save();
+            this.ctx.globalAlpha = style.opacity;
+
+            this.opacityNodes.push(element);
         }
     }
 
     renderElement(element) {
         this.makeClip(element);
+
+        this.makeOpacity(element);
 
         const renderer = new ElementRender(this.ctx, element);
         renderer.render();

@@ -1,7 +1,23 @@
+import {text2Ellipsis} from "../utils/draw";
+
 export default class TextRender {
     constructor(ctx, node) {
         this.ctx = ctx;
         this.node = node;
+
+        this._textEllipsis = '';
+    }
+
+
+    getTextEllipsis() {
+        if (!this._textEllipsis) {
+            const element = this.node.parent;
+            const contentWidth = element.style.getContentWidth();
+
+            this._textEllipsis = text2Ellipsis(this.ctx, this.node.text, contentWidth);
+        }
+
+        return this._textEllipsis;
     }
 
     drawText() {
@@ -39,14 +55,13 @@ export default class TextRender {
         if (style.color) {
             ctx.fillStyle = style.color;
         }
-        debugger;
 
         const fontSize = style.fontSize;
         const fontFamily = style.fontFamily;
         const fontWeight = style.fontWeight;
 
         ctx.font = [fontWeight, fontSize, fontFamily].join(' ');
-        ctx.fillText(node.textEllipsis, x, y + style.padding.top);
+        ctx.fillText(this.getTextEllipsis(), x, y);
         // ctx.fillText(this.left, x, y + this.padding.top);
         ctx.restore();
     }

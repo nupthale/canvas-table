@@ -5,9 +5,6 @@ const event$ = new Subject({});
 // https://stackoverflow.com/questions/9979172/difference-between-node-object-and-element-object
 export default class Node {
     constructor(props) {
-        // 全局Context
-        this.ctx = props.ctx;
-
         // 层级关系
         this.parent = null;
         this._children = [];

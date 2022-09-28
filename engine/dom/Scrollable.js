@@ -33,36 +33,13 @@ export default class Scrollable extends Element {
     scrollBy(deltaX, deltaY) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (this.scrollByX(deltaX)) {
-                this.sortAndRender(this.children);
+                // this.sortAndRender(this.children);
             }
         } else {
             if (this.scrollByY(deltaY)) {
-                this.sortAndRender(this.children);
+                // this.sortAndRender(this.children);
             }
         }
-    }
-
-    // @override
-    sortAndRender(children) {
-        this.ctx.save();
-
-        // 必须clone， 要不然siblings的顺序也被sort了
-        const sortedLayer = [...(children || [])].sort((prev, next) => (prev.zIndex || 0) - (next.zIndex || 0));
-
-        // 清空内部
-        this.ctx.clearRect(this.left, this.top, this.width, this.height);
-
-        // clip
-        this.ctx.rect(this.left, this.top, this.width, this.height);
-
-        this.ctx.clip();
-
-
-        sortedLayer.forEach(child => {
-            child.render();
-        });
-
-        this.ctx.restore();
     }
 
     scrollByX(deltaX) {
