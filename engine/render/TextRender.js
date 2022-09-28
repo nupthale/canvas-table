@@ -32,7 +32,7 @@ export default class TextRender {
         const { x: left, y: top } = layout;
 
         let x = 0;
-        let y = top + height / 2;
+        let y = top;
 
         ctx.save();
 
@@ -52,13 +52,29 @@ export default class TextRender {
                 break;
         }
 
+        switch(style.verticalAlign) {
+            case 'middle':
+                y = top + height / 2;
+                ctx.textBaseline = "middle";
+                break;
+            case 'bottom':
+                y = top + height;
+                ctx.textBaseline = 'bottom';
+                break;
+            case 'top':
+            default:
+                y = top;
+                ctx.textBaseline = "top";
+                break;
+        }
+
         if (style.color) {
             ctx.fillStyle = style.color;
         }
 
         const fontSize = style.fontSize;
-        const fontFamily = style.fontFamily;
-        const fontWeight = style.fontWeight;
+        const fontFamily = style.fontFamily || 'Roboto';
+        const fontWeight = style.fontWeight || 500;
 
         ctx.font = [fontWeight, fontSize, fontFamily].join(' ');
         ctx.fillText(this.getTextEllipsis(), x, y);

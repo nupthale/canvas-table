@@ -5,7 +5,10 @@ import { cellStyle } from "../meta";
 
 export default class TRow extends Element {
     static getDefaultProps(stage, rowIndex) {
+        const { commonProps } = stage;
+
         return {
+            ...commonProps,
             rowIndex,
             stage,
             style: {
