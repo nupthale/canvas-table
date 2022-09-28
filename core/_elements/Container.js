@@ -10,9 +10,6 @@ export default class Container extends Element {
         const scrollable = createElement(Scrollable, {
             scrollWidth: stage.tableWidth,
             scrollHeight: stage.tableHeight,
-            onScroll: () => {
-              stage.repaint();
-            },
             style: {
                 width: getTableViewWidth(),
                 height: getTableViewHeight(),
@@ -37,5 +34,18 @@ export default class Container extends Element {
         this.ctx = props.ctx;
         this.stage = props.stage;
         this.children = props.children || [];
+    }
+
+    renderSelf() {
+        const width = getTableViewWidth();
+        const height = getTableViewHeight();
+
+        shadowRect({
+            ctx: this.ctx,
+            x: containerPadding,
+            y: containerPadding,
+            w: width,
+            h: height,
+        });
     }
 }

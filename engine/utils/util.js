@@ -16,8 +16,8 @@ export const isInView = (element) => {
     const style = element.getComputedStyle();
     const layout = element.getLayout();
 
-    const isHorizontalInView = (layout.x + style.width > 0 && layout.x < element.ctx.canvas.width / PIXEL_RATIO);
-    const isVerticalInView = (layout.y + style.height > 0 && layout.y < element.ctx.canvas.height / PIXEL_RATIO);
+    const isHorizontalInView = (layout.x + style.width > 0 && layout.x < element.props.style.width / PIXEL_RATIO);
+    const isVerticalInView = (layout.y + style.height > 0 && layout.y < element.props.style.height / PIXEL_RATIO);
 
     return isHorizontalInView && isVerticalInView;
 }

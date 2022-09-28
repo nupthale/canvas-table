@@ -76,7 +76,9 @@ export default class Stage {
     }
 
     ctxInit() {
-        this.ctx = this.$canvas.getContext('2d');
+        this.ctx = this.$canvas.getContext('2d', {
+            alpha: false,
+        });
         this.ctx.setTransform(PIXEL_RATIO, 0, 0 , PIXEL_RATIO, 0, 0);
         this.ctx.fillStyle = '#fff';
         this.ctx.font = '14px';
@@ -145,9 +147,20 @@ export default class Stage {
         });
     }
 
-    updateView() {
+    repaint() {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-        // this.container.render();
+
+        const renderer = new Render(this.ctx, this.layerTree);
+
+        renderer.paint();
+    }
+
+    reflow() {
+        this.layoutTree = this.domTree.doLayout();
+
+        this.layerTree = Layer.create(this.layoutTree, null);
+
+        this.repaint();
     }
 
     render() {
@@ -158,12 +171,9 @@ export default class Stage {
         );
 
         this.domTree = Container.create(this, this.table);
-        this.layoutTree = this.domTree.doLayout();
-        this.layerTree = Layer.create(this.layoutTree, null);
 
-        console.info('#layoutTree', this.layoutTree);
+        console.info('domTree: ', this.domTree);
 
-        const renderer = new Render(this.ctx, this.layerTree);
-        renderer.paint();
+        this.reflow();
     }
 }

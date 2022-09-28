@@ -16,7 +16,6 @@ export default class Tag extends Element {
                 padding: [0, 0, 0, 0],
                 color: '#7B21C3',
                 textAlign: 'center',
-                verticalAlign: 'middle',
             }
         }, [createElement(Text, {
             ...commonProps,

@@ -47,12 +47,11 @@ export default class ExpandIndicator extends Element {
 
     initEvent() {
         this.on('mouseenter', () => {
-            console.info('mouseenter:', this.stage);
-            // this.stage.$root.style.cursor = 'crosshair';
+            this.stage.$root.style.cursor = 'crosshair';
         });
 
         this.on('mouseleave', () => {
-            // this.stage.$root.style.cursor = 'cell';
+            this.stage.$root.style.cursor = 'cell';
         })
     }
 }

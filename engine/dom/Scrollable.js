@@ -11,8 +11,17 @@ export default class Scrollable extends Element {
 
         this.scrollWidth = props.scrollWidth;
         this.scrollHeight = props.scrollHeight;
+        this.onScroll = props.onScroll;
 
         this.initEvent();
+    }
+
+    get width() {
+        return this.getComputedStyle().width;
+    }
+
+    get height() {
+        return this.getComputedStyle().height;
     }
 
     get maxScrollLeft() {
@@ -33,11 +42,15 @@ export default class Scrollable extends Element {
     scrollBy(deltaX, deltaY) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (this.scrollByX(deltaX)) {
-                // this.sortAndRender(this.children);
+                this.doLayout();
+
+                this.onScroll?.();
             }
         } else {
             if (this.scrollByY(deltaY)) {
-                // this.sortAndRender(this.children);
+                this.doLayout();
+
+                this.onScroll?.();
             }
         }
     }

@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 
 import ZIndex1 from "../test/zIndex-1";
 import Absolute1 from "../test/absolute1";
+import Scrollable1 from "../test/scrollable";
 
 
 export default function Home() {
@@ -15,11 +16,13 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>ZIndex</h1>
-                <ZIndex1 />
+                {/*<h1 className={styles.title}>ZIndex</h1>*/}
+                {/*<ZIndex1 />*/}
 
-                <h1 className={styles.title}>Absolute</h1>
-                <Absolute1 />
+                {/*<h1 className={styles.title}>Absolute</h1>*/}
+                {/*<Absolute1 />*/}
+
+                <Scrollable1></Scrollable1>
             </main>
         </div>
     )
