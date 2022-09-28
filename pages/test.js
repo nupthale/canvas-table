@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 
 import ZIndex1 from "../test/zIndex-1";
 import Absolute1 from "../test/absolute1";
+import Animation from "../test/animation";
 
 
 export default function Home() {
@@ -20,6 +21,9 @@ export default function Home() {
 
                 <h1 className={styles.title}>Absolute</h1>
                 <Absolute1 />
+
+                <h1 className={styles.title}>Animation</h1>
+                <Animation />
             </main>
         </div>
     )
