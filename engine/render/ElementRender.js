@@ -1,4 +1,5 @@
-import {drawLine, drawRect} from "../utils/draw";
+import {drawLine, drawRect, shadowRect} from "../utils/draw";
+import {containerPadding} from "../../core/meta";
 
 export default class ElementRender {
     constructor(ctx, element) {
@@ -42,8 +43,41 @@ export default class ElementRender {
         }
     }
 
+    renderShadow() {
+        const element = this.element;
+        const layout = element.getLayout();
+        const style = element.getComputedStyle();
+        const { x, y } = layout;
+
+        const { boxShadow, width, height, margin, backgroundColor } = style;
+        const startX = x + margin.left || 0;
+        const startY = y + margin.top || 0;
+        const rectWidth = width - margin.left || 0 - margin.right || 0;
+        const rectHeight = height - margin.top || 0 - margin.bottom || 0;
+
+        if (boxShadow) {
+            const [shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor] = boxShadow;
+
+
+            shadowRect({
+                ctx: this.ctx,
+                x: startX,
+                y: startY,
+                w: rectWidth,
+                h: rectHeight,
+                fillStyle: backgroundColor,
+                shadowOffsetX,
+                shadowOffsetY,
+                shadowBlur,
+                shadowColor,
+            });
+        }
+    }
+
     render() {
         // 顺序, 先box-shadow, 再box
+        this.renderShadow();
+
         this.renderBox();
     }
 }

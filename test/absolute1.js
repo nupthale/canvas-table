@@ -29,6 +29,7 @@ export default function Absolute1() {
                 // margin: [20, 0, 0, 170],
                 backgroundColor: '#ffdddd',
                 zIndex: 1,
+                boxShadow: [],
                 // opacity: 0.3,
             },
             $div3: {
