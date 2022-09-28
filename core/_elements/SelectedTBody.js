@@ -5,7 +5,7 @@ import SelectionRect from "./SelectionRect";
 
 export default class SelectedTBody extends TBody {
     static create(stage, trs) {
-        const { tableWidth, dataSource } = stage;
+        const { commonProps, dataSource } = stage;
 
         const selectionRect = SelectionRect.create({
             trs,
@@ -13,7 +13,7 @@ export default class SelectedTBody extends TBody {
 
         return createElement(SelectedTBody, {
             style: {
-                width: tableWidth,
+                width: commonProps.tableWidth,
                 height: dataSource.length * cellStyle.height,
                 padding: [0, 0, 0, 0],
                 border: [],

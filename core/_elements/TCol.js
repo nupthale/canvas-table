@@ -20,7 +20,6 @@ export default class TCol extends Element {
         padding: [4, 8, 4, 8],
         color: "#666",
         backgroundColor: "#fff",
-        verticalAlign: 'middle',
     }
 
     static createLayerText(commonProps, text, align) {
@@ -74,5 +73,30 @@ export default class TCol extends Element {
         this.colIndex = props.colIndex;
 
         this.tag = 'col';
+    }
+
+    get left() {
+        let value = 0;
+
+        switch(this.fixed) {
+            case 'left':
+                const prevSiblings = this.prevSiblings;
+                value = prevSiblings.reduce((acc, crt) => {
+                    return acc + crt.width;
+                }, 0) + containerPadding;
+
+                break;
+            case 'right':
+                const postSiblings = this.postSiblings;
+
+                const totalWidth = postSiblings.reduce((acc, crt) => acc + crt.width, 0);
+                value = getTableViewWidth() + containerPadding - totalWidth - this.width;
+                break;
+            default:
+                value = this.getStaticLeft();
+                break;
+        }
+
+        return value;
     }
 }

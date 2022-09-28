@@ -15,7 +15,6 @@ const defaultStyle = {
     zIndex: 'auto',
     textAlign: 'left',
     overflow: 'visible',
-    verticalAlign: 'middle',
     fontSize: '14px',
     fontFamily: '',
     fontWeight: 'normal',

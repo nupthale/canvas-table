@@ -31,15 +31,15 @@ export default class ElementRender {
         }
 
         if (right) {
-            drawLine(this.ctx, startX, startX + rectWidth, startY, startX + rectWidth, startY + rectHeight, right.color);
+            drawLine(this.ctx, startX + rectWidth, startY, startX + rectWidth, startY + rectHeight, right.color);
         }
 
         if (bottom) {
-            drawLine(this.ctx, startX, startX, startY + rectHeight, startX + rectWidth, startY + rectHeight, bottom.color);
+            drawLine(this.ctx, startX, startY + rectHeight, startX + rectWidth, startY + rectHeight, bottom.color);
         }
 
         if (left) {
-            drawLine(this.ctx, startX, startX, startY, startX, startY + rectHeight, left.color);
+            drawLine(this.ctx, startX, startY, startX, startY + rectHeight, left.color);
         }
     }
 
