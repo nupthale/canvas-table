@@ -1,10 +1,10 @@
-import {filter, Subject, tap} from "rxjs";
-
-const event$ = new Subject({});
+import Eventful from "../event/Eventful";
 
 // https://stackoverflow.com/questions/9979172/difference-between-node-object-and-element-object
-export default class Node {
+export default class Node extends Eventful {
     constructor(props) {
+        super(props);
+
         // 层级关系
         this.parent = null;
         this._children = [];
@@ -53,19 +53,5 @@ export default class Node {
 
             return child.isChild(node);
         })
-    }
-
-    on(name, handler) {
-        return event$.pipe(
-            filter((e) => e.name === name),
-            tap((e) => handler(e.value)),
-        ).subscribe();
-    }
-
-    emit(name, value) {
-        event$.next({
-            name,
-            value,
-        });
     }
 }

@@ -30,7 +30,7 @@ export default function Absolute1() {
                 backgroundColor: '#ffdddd',
                 zIndex: 1,
                 boxShadow: [],
-                // opacity: 0.3,
+                opacity: 0.3,
             },
             $div3: {
                 position: 'relative',
