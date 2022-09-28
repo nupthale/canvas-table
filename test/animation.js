@@ -70,10 +70,11 @@ export default function AnimationTest() {
                     duration: 300,
                     onChange(val) {
                         console.info('#animation', val);
-
-                        $div2.style.update({
-                            opacity: val,
-                        });
+                        //
+                        // $div2.style.update({
+                        //     opacity: val,
+                        // });
+                        $div2.style.opacity = val;
 
                         stage.repaint();
                     }

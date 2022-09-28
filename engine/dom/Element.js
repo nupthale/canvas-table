@@ -24,7 +24,21 @@ export default class Element extends Node {
     }
 
     doLayout() {
-        this.style = new Style(this, this.props.style);
+        const style = new Style(this, this.props.style);
+        // 支持node.style.opacity = 0.3的写法
+        this.style = new Proxy(style, {
+            set: (instance, property, value) => {
+                instance.update({
+                    [property]: value,
+                });
+
+                return true;
+            },
+            get: (instance, property) => {
+                return instance[property];
+            },
+        });
+
         this._layout = LayoutFactory.make(this);
 
         this.children.forEach(child => {
