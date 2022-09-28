@@ -6,8 +6,11 @@ import Stage from "../engine/stage";
 
 import Animation from "../engine/animation/Animation";
 
+let stage;
 
-export default function Animation() {
+let $div1, $div2;
+
+export default function AnimationTest() {
     const mountRef = useRef();
     const initRef = useRef(false);
 
@@ -37,12 +40,14 @@ export default function Animation() {
             },
         }
 
-        const $div1 = createElement(Element, {
+        $div2 = createElement(Element, {
+            style: style.$div2,
+        }, []);
+
+        $div1 = createElement(Element, {
             style: style.$div1
         }, [
-            createElement(Element, {
-                style: style.$div2,
-            }, [])
+            $div2,
         ]);
 
 
@@ -50,7 +55,8 @@ export default function Animation() {
 
         const root = createElement(Element, {}, [$div1]);
 
-        new Stage(root, mountRef.current).render();
+        stage = new Stage(root, mountRef.current);
+        stage.render();
 
         initRef.current = true;
     }, []);
@@ -59,11 +65,17 @@ export default function Animation() {
         <>
             <button onClick={() => {
                 new Animation({
-                    startValue: 1,
-                    endValue: 100,
+                    startValue: 0.3,
+                    endValue: 1,
                     duration: 300,
                     onChange(val) {
                         console.info('#animation', val);
+
+                        $div2.style.update({
+                            opacity: val,
+                        });
+
+                        stage.repaint();
                     }
                 }).start();
             }}>start</button>

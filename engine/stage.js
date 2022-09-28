@@ -12,6 +12,8 @@ import MouseWheelHandler from "./event/MouseWheelHandler";
 import TouchMoveHandler from "./event/TouchMoveHandler";
 
 import {height, width, strokeColor } from "../core/meta";
+import Table from "../core/elements/Table";
+import Container from "../core/elements/Container";
 
 export default class Stage {
     constructor(root, mountNode) {
@@ -66,10 +68,22 @@ export default class Stage {
 
     render() {
         this.domTree = this.root;
-        this.layoutTree = this.domTree.doLayout();
-        this.layerTree = Layer.create(this.layoutTree, null);
+        this.reflow();
+    }
+
+    repaint() {
+        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
 
         const renderer = new Render(this.ctx, this.layerTree);
+
         renderer.paint();
+    }
+
+    reflow() {
+        this.layoutTree = this.domTree.doLayout();
+
+        this.layerTree = Layer.create(this.layoutTree, null);
+
+        this.repaint();
     }
 }

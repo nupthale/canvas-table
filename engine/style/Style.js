@@ -33,6 +33,7 @@ export default class Style {
     init(customStyle) {
         const computedStyle = {
             ...defaultStyle,
+            ...this.customStyle,
             ...customStyle,
         };
 
@@ -63,5 +64,9 @@ export default class Style {
         const margin = this.computedStyle.margin;
 
         return this.computedStyle.height - getBorderWidth(border, 'vertical') - getPaddingWidth(padding, 'vertical') - getMarginWidth(margin, 'vertical');
+    }
+
+    update(customStyle) {
+        this.init(customStyle);
     }
 }

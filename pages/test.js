@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import ZIndex1 from "../test/zIndex-1";
 import Absolute1 from "../test/absolute1";
 import Scrollable1 from "../test/scrollable";
-import Animation from "../test/animation";
+import AnimationTest from "../test/animation";
 
 
 export default function Home() {
@@ -17,17 +17,25 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>ZIndex</h1>
-                <ZIndex1 />
+                <div className={styles.demo}>
+                    <h1 className={styles.title}>ZIndex</h1>
+                    <ZIndex1 />
+                </div>
 
-                <h1 className={styles.title}>Absolute</h1>
-                <Absolute1 />
+                <div className={styles.demo}>
+                    <h1 className={styles.title}>Absolute</h1>
+                    <Absolute1 />
+                </div>
 
-                <h1 className={styles.title}>Scrollable</h1>
-                <Scrollable1></Scrollable1>
+                <div className={styles.demo}>
+                    <h1 className={styles.title}>Scrollable</h1>
+                    <Scrollable1></Scrollable1>
+                </div>
 
-                <h1 className={styles.title}>Animation</h1>
-                <Animation />
+                <div className={styles.demo}>
+                    <h1 className={styles.title}>Animation</h1>
+                    <AnimationTest />
+                </div>
             </main>
         </div>
     )

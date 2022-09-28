@@ -15,29 +15,31 @@ const defaultEasing = (t, b, c, d) =>
  * });
  */
 export default class Animation extends Eventful {
-    constructor(props) {
-        super(props);
+    constructor(options) {
+        super();
 
-        this.options = props.options;
+        this.options = options;
         this.context = {};
         this.cancel = false;
 
         this.startTime = null;
 
-        this.initEvt(props);
+        this.tick = this._tick.bind(this);
+
+        this.initEvt(options);
     }
 
-    initEvt(props) {
-        if (props.onChange) {
-            this.on('change', props.onChange);
+    initEvt(options) {
+        if (options.onChange) {
+            this.on('change', options.onChange);
         }
 
-        if (props.onComplete) {
-            this.on('complete', props.onComplete);
+        if (options.onComplete) {
+            this.on('complete', options.onComplete);
         }
     }
 
-    tick(ticktime) {
+    _tick(ticktime) {
         const { duration, easing = defaultEasing, startValue, endValue } = this.options;
         const byValue = endValue - startValue;
 
@@ -47,8 +49,6 @@ export default class Animation extends Eventful {
         const time = ticktime || +new Date();
         const currentTime = time > endTime ? duration : time - this.startTime;
 
-        this.context.currentValue = easing(currentTime, this.startTime, byValue, duration);
-
         if (this.cancel) {
             return;
         }
@@ -57,7 +57,10 @@ export default class Animation extends Eventful {
             this.context.currentValue = endValue;
 
             this.emit('complete', this.context.currentValue);
+            this.emit('change', this.context.currentValue);
         } else {
+            this.context.currentValue = easing(currentTime, startValue, byValue, duration);
+
             this.emit('change', this.context.currentValue);
             this.raf(this.tick);
         }
@@ -69,16 +72,8 @@ export default class Animation extends Eventful {
 
     start() {
         const {
-            startValue = 0,
             delay = 0,
         } = this.options;
-
-        this.context = {
-            ...options,
-            currentValue: startValue,
-            completionRate: 0,
-            durationRate: 0,
-        };
 
         if (delay > 0) {
             setTimeout(() => {

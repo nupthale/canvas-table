@@ -33,7 +33,6 @@ export default class AbsoluteLayout extends LayoutBase {
         const parentScrollLeft = parent?.scrollLeft || 0;
         const parentLayout = parent.getLayout();
 
-        debugger;
         return parentLayout.x + elementStyle.left - parentScrollLeft;
     }
 
