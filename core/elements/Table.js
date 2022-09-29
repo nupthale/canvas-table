@@ -23,10 +23,5 @@ export default class Table extends Element {
 
     constructor(props) {
         super(props);
-
-        this.stage = props.stage;
-        this.thead = props.children[0];
-        this.tbody = props.children[1];
-        this.trs = this.tbody?.children.filter(child => child.tag === 'row');
     }
 }

@@ -42,14 +42,10 @@ export default class Scrollable extends Element {
     scrollBy(deltaX, deltaY) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (this.scrollByX(deltaX)) {
-                // this.doLayout();
-
                 this.onScroll?.();
             }
         } else {
             if (this.scrollByY(deltaY)) {
-                // this.doLayout();
-
                 this.onScroll?.();
             }
         }
@@ -67,7 +63,7 @@ export default class Scrollable extends Element {
         if (newScrollLeft < 0) {
             shouldUpdate = this.scrollLeft === 0;
             this.scrollLeft = 0;
-        } else if (newScrollLeft > this.maxScrollLeft) {
+        } else if (newScrollLeft >= this.maxScrollLeft) {
             shouldUpdate = this.scrollLeft === this.maxScrollLeft;
             this.scrollLeft = this.maxScrollLeft;
         } else {

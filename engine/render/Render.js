@@ -2,19 +2,24 @@ import {isNumber} from "lodash-es";
 
 
 import {dfs} from "../utils/tree";
-import {isInView} from "../utils/util";
+import {isInView, isInOverflowBox, PIXEL_RATIO} from "../utils/util";
 
 
 import ElementRender from "./ElementRender";
 import TextRender from "./TextRender";
 
+let count = 0;
+
 // render尽量保持o(1)复杂度， 如果出现o(n)就会卡
+// 注意clip前必须beginPath,否则大量clip就卡死了: https://stackoverflow.com/questions/21160459/html-5-canvas-clip-very-costly
 export default class Render {
     constructor(ctx, rootLayer) {
         this.ctx = ctx;
         this.rootLayer = rootLayer;
 
         this.paintRecords = [];
+
+        this._isPainting = false;
 
         this.init();
     }
@@ -35,19 +40,32 @@ export default class Render {
     }
 
     paint() {
-        this.ctx.save();
+        if (this._isPainting) {
+            return;
+        }
 
+        this._isPainting = true;
+        count = 0;
+
+        const me = this;
         this.paintRecords.forEach(node => {
-            if (isInView(node, this.ctx)) {
+            if (node.isTextNode && node.text === 'address1') {
+                console.info('#isInView', node, me.ctx.canvas.width / PIXEL_RATIO, isInView(node, this.ctx));
+                debugger;
+            }
+
+            if (isInView(node, me.ctx)) {
                 if (node.isTextNode) {
                     this.renderTextNode(node);
                 } else {
                     this.renderElement(node);
                 }
             }
-        })
+        });
 
-        this.ctx.restore();
+        console.info('#count', count);
+
+        this._isPainting = false;
     }
 
     makeOpacity(element) {
@@ -65,6 +83,8 @@ export default class Render {
             const layout = overflowParent.getLayout();
             const style = overflowParent.getComputedStyle();
 
+            // 重点,clip前必须beginPath,否则非常多clip的时候直接卡死
+            this.ctx.beginPath();
             this.ctx.rect(
                 layout.x,
                 layout.y,
@@ -77,12 +97,18 @@ export default class Render {
 
 
     renderElement(element) {
+        const overflowParent = element.style.overflowParent;
+        if (overflowParent && !isInOverflowBox(overflowParent, element)) {
+            return;
+        }
+
+        count++;
+
         this.ctx.save();
 
         this.makeClip(element);
         this.makeOpacity(element);
 
-        const overflowParent = element.style.overflowParent;
         const renderer = new ElementRender(this.ctx, element, overflowParent);
         renderer.render();
 

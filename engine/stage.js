@@ -73,6 +73,9 @@ export default class Stage {
 
     repaint() {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
+        // requestAnimationFrame(() => {
+        //
+        // })
         this.renderer.paint();
     }
 
@@ -82,6 +85,8 @@ export default class Stage {
         this.layerTree = Layer.create(this.layoutTree, null);
 
         this.renderer = new Render(this.ctx, this.layerTree);
+
+        debugger;
 
         this.repaint();
     }

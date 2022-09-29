@@ -28,23 +28,12 @@ export default function CanvasTable() {
         setStage(stage);
     }, []);
 
-    const handleScroll = (scrollLeft, scrollTop) => {
-        stage.onScroll(0 - scrollLeft, 0 - scrollTop);
-    }
-
     return (
         <div ref={mountRef} className="container" style={{
             width: `${width}px`,
             height: `${height}px`,
             overflow: 'hidden',
-        }}>
-            {/*<Scroller*/}
-            {/*    width={width}*/}
-            {/*    height={height}*/}
-            {/*    tableWidth={stage?.container.width}*/}
-            {/*    tableHeight={stage?.container.height}*/}
-            {/*    onScroll={handleScroll}*/}
-            {/*/>*/}
+        }} suppressContentEditableWarning={true}>
         </div>
     );
 }

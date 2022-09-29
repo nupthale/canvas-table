@@ -21,14 +21,5 @@ export default class TBody extends Element {
 
     constructor(props) {
         super(props);
-
-        this._fixedLeftCols = null;
-        this._fixedRightCols = null;
-        this._centerCols = null;
-
-        this._fixedLeftWidth = null;
-        this._fixedRightWidth = null;
-
-        this.selectionRect = props.selectionRect;
     }
 }

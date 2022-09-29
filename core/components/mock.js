@@ -15,7 +15,7 @@ export const columns = [
     {title: 'avatar', dataIndex: 'avatar' },
     {title: 'name',dataIndex: 'name' },
     {title: 'age', dataIndex: 'age', fixed: 'right' },
-    {title: 'address', dataIndex: 'address', fixed: 'right' }
+    {title: 'address1', dataIndex: 'address', fixed: 'right' }
 ];
 
 export const dataSource = [

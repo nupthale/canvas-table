@@ -15,24 +15,32 @@ export const percentCalc = (number, parentNumber) => {
 export const isInView = (node, ctx) => {
     const element = node.isTextNode ? node.parent : node;
 
+    const overflowParent = element.style.overflowParent;
+
     const style = element.getComputedStyle();
     const layout = element.getLayout();
 
-    const isHorizontalInView = (layout.x + style.width > 0 && layout.x < ctx.canvas.width / PIXEL_RATIO);
-    const isVerticalInView = (layout.y + style.height > 0 && layout.y < ctx.canvas.height / PIXEL_RATIO);
+    const x = layout.x - (overflowParent?.scrollLeft || 0);
+    const y = layout.y - (overflowParent?.scrollTop || 0)
+
+    const isHorizontalInView = (x + style.width > 0 && x < ctx.canvas.width / PIXEL_RATIO);
+    const isVerticalInView = (y + style.height > 0 && y < ctx.canvas.height / PIXEL_RATIO);
 
     return isHorizontalInView && isVerticalInView;
 }
 
-export const isInBox = (targetElement, element) => {
+export const isInOverflowBox = (targetElement, element) => {
     const style = element.getComputedStyle();
     const layout = element.getLayout();
 
     const targetStyle = targetElement.getComputedStyle();
     const targetLayout = targetElement.getLayout();
 
-    const isHorizontalInView = (layout.x + style.width > targetLayout.x && layout.x < targetLayout.x + targetStyle.width);
-    const isVerticalInView = (layout.y + style.height > targetLayout.y && layout.y < targetLayout.y + targetStyle.height);
+    const x = layout.x - (targetElement?.scrollLeft || 0);
+    const y = layout.y - (targetElement?.scrollTop || 0)
+
+    const isHorizontalInView = (x + style.width > targetLayout.x && x < targetLayout.x + targetStyle.width);
+    const isVerticalInView = (y + style.height > targetLayout.y && y < targetLayout.y + targetStyle.height);
 
     return isHorizontalInView && isVerticalInView;
 }

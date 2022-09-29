@@ -10,14 +10,15 @@ export const drawLine = (
     color,
     width,
 ) => {
-    if (color) {
+    if (color || isNumber(width)) {
         ctx.save();
-        ctx.strokeStyle = color;
-    }
+        if (color) {
+            ctx.strokeStyle = color;
+        }
 
-    if (isNumber(width)) {
-        ctx.save();
-        ctx.lineWidth = width;
+        if (isNumber(width)) {
+            ctx.lineWidth = width;
+        }
     }
 
     ctx.beginPath();
@@ -43,6 +44,8 @@ export const drawRect = (
         ctx.save();
         ctx.fillStyle = color;
     }
+
+    ctx.beginPath();
     ctx.fillRect(startX, startY, width, height);
 
     if (color) {
@@ -64,6 +67,7 @@ export const drawStrokeRect = (
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
 
+    ctx.beginPath();
     roundRect(ctx, startX, startY, width, height, borderRadius);
     ctx.stroke();
 
@@ -145,6 +149,7 @@ export const text2Ellipsis = (
 export const clipRect = (ctx, x, y, width, height, callback) => {
     ctx.save();
 
+    ctx.beginPath();
     ctx.rect(
         x,
         y,

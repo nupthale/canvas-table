@@ -24,8 +24,6 @@ export default class SelectionRect extends Element {
         this.props = props;
         this.stage = props.stage;
 
-        this.trs = props.trs || [];
-
         this.expandIndicator = this.children[0];
     }
 }

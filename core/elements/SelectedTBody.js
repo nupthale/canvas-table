@@ -7,9 +7,9 @@ export default class SelectedTBody extends TBody {
     static create(stage, trs) {
         const { tableWidth, dataSource } = stage;
 
-        const selectionRect = SelectionRect.create({
-            trs,
-        }, []);
+        // const selectionRect = SelectionRect.create({
+        //     trs,
+        // }, []);
 
         return createElement(SelectedTBody, {
             style: {
@@ -18,9 +18,7 @@ export default class SelectedTBody extends TBody {
                 padding: [0, 0, 0, 0],
                 border: [],
             },
-            selectionRect,
-            trs,
-        }, [...trs, selectionRect])
+        }, [...trs])
     }
 
     constructor(props) {
