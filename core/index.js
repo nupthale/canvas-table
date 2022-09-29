@@ -41,7 +41,11 @@ export default class TableEntry {
     }
 
     get tableWidth() {
-        return this.columns.length * cellStyle.width;
+        const width = this.columns.reduce((acc, crt) => {
+            return acc + (crt.width || cellStyle.width);
+        }, 0);
+
+        return width;
     }
 
     get tableHeight() {

@@ -22,37 +22,13 @@ export default class Container extends Element {
             style: {
                 width,
                 height,
-                border: [{
-                    width: 10,
-                    color: 'red',
-                }, {
-                    width: 10,
-                    color: 'red',
-                }, {
-                    width: 10,
-                    color: 'red',
-                }, {
-                    width: 10,
-                    color: 'red',
-                }],
+                border: [],
                 padding: [containerPadding, containerPadding, containerPadding, containerPadding],
             },
         }, [createElement(Element, {
             style: {
                 boxShadow: [],
-                border: [{
-                    width: 10,
-                    color: 'blue',
-                }, {
-                    width: 10,
-                    color: 'blue',
-                }, {
-                    width: 10,
-                    color: 'blue',
-                }, {
-                    width: 10,
-                    color: 'blue',
-                }],
+                border: [],
             }
         }, [scrollable])]);
 
