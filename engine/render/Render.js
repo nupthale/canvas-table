@@ -2,11 +2,11 @@ import {isNumber} from "lodash-es";
 
 
 import {dfs} from "../utils/tree";
+import {isInView} from "../utils/util";
+
 
 import ElementRender from "./ElementRender";
 import TextRender from "./TextRender";
-
-import {shouldClipCtx} from "./util";
 
 // render尽量保持o(1)复杂度， 如果出现o(n)就会卡
 export default class Render {
@@ -38,10 +38,12 @@ export default class Render {
         this.ctx.save();
 
         this.paintRecords.forEach(node => {
-            if (node.isTextNode) {
-                this.renderTextNode(node);
-            } else {
-                this.renderElement(node);
+            if (isInView(node, this.ctx)) {
+                if (node.isTextNode) {
+                    this.renderTextNode(node);
+                } else {
+                    this.renderElement(node);
+                }
             }
         })
 
@@ -70,13 +72,6 @@ export default class Render {
                 style.height,
             );
             this.ctx.clip();
-
-
-            if (overflowParent.scrollLeft || overflowParent.scrollTop) {
-                console.info('translate', overflowParent.scrollLeft);
-
-                this.ctx.translate(0 - overflowParent.scrollLeft, 0 - overflowParent.scrollTop);
-            }
         }
     }
 
@@ -87,7 +82,8 @@ export default class Render {
         this.makeClip(element);
         this.makeOpacity(element);
 
-        const renderer = new ElementRender(this.ctx, element);
+        const overflowParent = element.style.overflowParent;
+        const renderer = new ElementRender(this.ctx, element, overflowParent);
         renderer.render();
 
         this.ctx.restore();
@@ -99,7 +95,8 @@ export default class Render {
         this.makeClip(node.parent);
         this.makeOpacity(node.parent);
 
-        const renderer = new TextRender(this.ctx, node);
+        const overflowParent = node.parent.style.overflowParent;
+        const renderer = new TextRender(this.ctx, node, overflowParent);
         renderer.render();
 
         this.ctx.restore();

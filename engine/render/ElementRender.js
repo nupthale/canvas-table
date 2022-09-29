@@ -2,9 +2,10 @@ import {drawLine, drawRect, shadowRect} from "../utils/draw";
 import {containerPadding} from "../../core/meta";
 
 export default class ElementRender {
-    constructor(ctx, element) {
+    constructor(ctx, element, overflowParent) {
         this.ctx = ctx;
         this.element = element;
+        this.overflowParent = overflowParent;
     }
 
     renderBox() {
@@ -15,10 +16,10 @@ export default class ElementRender {
         const { backgroundColor, border, margin, width, height } = style;
         const { x, y } = layout;
 
-        const startX = x + margin.left || 0;
-        const startY = y + margin.top || 0;
-        const rectWidth = width - margin.left || 0 - margin.right || 0;
-        const rectHeight = height - margin.top || 0 - margin.bottom || 0;
+        const startX = x + (margin.left || 0) - (this.overflowParent?.scrollLeft || 0);
+        const startY = y + (margin.top || 0) - (this.overflowParent?.scrollTop || 0);
+        const rectWidth = width - (margin.left || 0) - (margin.right || 0);
+        const rectHeight = height - (margin.top || 0) - (margin.bottom || 0);
 
         if (backgroundColor) {
             drawRect(this.ctx, startX, startY, rectWidth, rectHeight, backgroundColor);
@@ -50,10 +51,10 @@ export default class ElementRender {
         const { x, y } = layout;
 
         const { boxShadow, width, height, margin, backgroundColor } = style;
-        const startX = x + margin.left || 0;
-        const startY = y + margin.top || 0;
-        const rectWidth = width - margin.left || 0 - margin.right || 0;
-        const rectHeight = height - margin.top || 0 - margin.bottom || 0;
+        const startX = x + (margin.left || 0) - (this.overflowParent?.scrollLeft || 0);
+        const startY = y + (margin.top || 0) - (this.overflowParent?.scrollTop || 0);
+        const rectWidth = width - (margin.left || 0) - (margin.right || 0);
+        const rectHeight = height - (margin.top || 0) - (margin.bottom || 0);
 
         if (boxShadow) {
             const [shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor] = boxShadow;

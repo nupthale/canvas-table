@@ -35,7 +35,6 @@ export default class Scrollable extends Element {
     initEvent() {
         this.on('mousewheel', (e) => {
             e.stopPropagation();
-            debugger;
             this.scrollBy(e.deltaX, e.deltaY);
         });
     }
@@ -57,7 +56,6 @@ export default class Scrollable extends Element {
     }
 
     scrollByX(deltaX) {
-        debugger;
         // 无需滚动
         if (this.scrollWidth <= this.width || deltaX === 0) {
             return false;

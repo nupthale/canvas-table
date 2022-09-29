@@ -1,9 +1,11 @@
 import {text2Ellipsis} from "../utils/draw";
 
 export default class TextRender {
-    constructor(ctx, node) {
+    constructor(ctx, node, overflowParent) {
         this.ctx = ctx;
         this.node = node;
+
+        this.overflowParent = overflowParent;
 
         this._textEllipsis = '';
     }
@@ -38,32 +40,32 @@ export default class TextRender {
 
         switch(style.textAlign) {
             case 'center':
-                x = left + width / 2;
+                x = left + width / 2 - (this.overflowParent?.scrollLeft || 0);
                 ctx.textAlign = 'center';
                 break;
             case 'right':
-                x = left + width - style.padding.right;
+                x = left + width - style.padding.right - (this.overflowParent?.scrollLeft || 0);
                 ctx.textAlign = 'right';
                 break;
             case 'left':
             default:
-                x = left + style.padding.left;
+                x = left + style.padding.left - (this.overflowParent?.scrollLeft || 0);
                 ctx.textAlign = 'left';
                 break;
         }
 
         switch(style.verticalAlign) {
             case 'middle':
-                y = top + height / 2;
+                y = top + height / 2 - (this.overflowParent?.scrollTop || 0);
                 ctx.textBaseline = "middle";
                 break;
             case 'bottom':
-                y = top + height;
+                y = top + height - (this.overflowParent?.scrollTop || 0);
                 ctx.textBaseline = 'bottom';
                 break;
             case 'top':
             default:
-                y = top;
+                y = top - (this.overflowParent?.scrollTop || 0);
                 ctx.textBaseline = "top";
                 break;
         }

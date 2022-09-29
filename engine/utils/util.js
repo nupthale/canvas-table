@@ -12,7 +12,9 @@ export const percentCalc = (number, parentNumber) => {
     }
 };
 
-export const isInView = (element, ctx) => {
+export const isInView = (node, ctx) => {
+    const element = node.isTextNode ? node.parent : node;
+
     const style = element.getComputedStyle();
     const layout = element.getLayout();
 
