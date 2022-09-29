@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import Stage from "../index";
-
-import Scroller from './Scroller';
+import TableEntry from "../index";
 
 import {columns, dataSource} from "./mock";
 
@@ -20,7 +18,7 @@ export default function CanvasTable() {
 
         initRef.current = true;
 
-        const stage = new Stage({
+        const stage = new TableEntry({
             columns,
             dataSource,
             $root: mountRef.current,

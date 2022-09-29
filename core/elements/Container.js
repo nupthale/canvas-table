@@ -5,12 +5,12 @@ import {containerPadding, getTableViewWidth, getTableViewHeight, width, height} 
 import Scrollable from "../../engine/dom/Scrollable";
 
 export default class Container extends Element {
-    static create(stage, table) {
+    static create(tableEntry, table) {
         const scrollable = createElement(Scrollable, {
-            scrollWidth: stage.tableWidth,
-            scrollHeight: stage.tableHeight,
+            scrollWidth: tableEntry.tableWidth,
+            scrollHeight: tableEntry.tableHeight,
             onScroll: () => {
-              stage.repaint();
+                tableEntry.stage.repaint();
             },
             style: {
                 padding: [],

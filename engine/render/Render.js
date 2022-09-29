@@ -14,10 +14,6 @@ export default class Render {
         this.ctx = ctx;
         this.rootLayer = rootLayer;
 
-        this.opacityNodes = [];
-        this.overflowNodes = [];
-        this.scrollableNodes = [];
-
         this.paintRecords = [];
 
         this.init();
@@ -31,6 +27,7 @@ export default class Render {
             const nodes = layer.nodes || [];
 
             this.paintRecords.push(layer.rootNode);
+
             nodes.forEach(node => {
                this.paintRecords.push(node);
             });
@@ -40,25 +37,15 @@ export default class Render {
     paint() {
         this.ctx.save();
 
-        dfs(this.rootLayer, (layer) => {
-            // 先渲染root, 再渲染nodes, 再渲染children
-            const nodes = layer.nodes || [];
-
-            this.renderElement(layer.rootNode);
-            this.renderNodes(nodes);
-        });
-
-        this.ctx.restore();
-    }
-
-    renderNodes(nodes) {
-        nodes.forEach(node => {
+        this.paintRecords.forEach(node => {
             if (node.isTextNode) {
                 this.renderTextNode(node);
             } else {
                 this.renderElement(node);
             }
         })
+
+        this.ctx.restore();
     }
 
     makeOpacity(element) {

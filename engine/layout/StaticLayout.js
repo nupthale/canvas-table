@@ -10,28 +10,24 @@ export default class StaticLayout extends LayoutBase {
     layoutX(parentX, elementStyle) {
         const element = this.element;
         const parent = element.parent;
-        const parentScrollLeft = parent?.scrollLeft || 0;
-
 
         if (elementStyle.display === 'block') {
-            return parentX - parentScrollLeft;
+            return parentX;
         }
 
         // 暂时不考虑自动换行
-        return parentX + getPreSiblingWidth(element) - parentScrollLeft;
+        return parentX + getPreSiblingWidth(element);
     }
 
     layoutY(parentY, elementStyle) {
         const element = this.element;
         const parent = element.parent;
 
-        const parentScrollTop = parent?.scrollTop || 0;
-
         if (elementStyle.display !== 'block') {
-            return parentY - parentScrollTop;
+            return parentY;
         }
 
-        return parentY + getPreSiblingHeight(element) - parentScrollTop;
+        return parentY + getPreSiblingHeight(element);
     }
 }
 

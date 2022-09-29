@@ -73,16 +73,15 @@ export default class Stage {
 
     repaint() {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-
-        const renderer = new Render(this.ctx, this.layerTree);
-
-        renderer.paint();
+        this.renderer.paint();
     }
 
     reflow() {
         this.layoutTree = this.domTree.doLayout();
 
         this.layerTree = Layer.create(this.layoutTree, null);
+
+        this.renderer = new Render(this.ctx, this.layerTree);
 
         this.repaint();
     }

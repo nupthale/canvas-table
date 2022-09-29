@@ -9,36 +9,24 @@ import SelectedTCol from "./elements/SelectedTCol";
 import SelectedTRow from "./elements/SelectedTRow";
 import Container from "./elements/Container";
 
-import Layer from "../engine/layer/Layer";
-import Render from "../engine/render/Render";
-
-
-import ClickHandler from "../engine/event/ClickHandler";
-import DblClickHandler from "../engine/event/DblClickHandler";
-import ContextMenuHandler from "../engine/event/ContextMenuHandler";
-import MouseMoveHandler from "../engine/event/MouseMoveHandler";
-import MouseWheelHandler from "../engine/event/MouseWheelHandler";
-import TouchMoveHandler from "../engine/event/TouchMoveHandler";
+import Stage from '../engine/stage';
 
 import SelectionManager from "./selection/manager";
 
-import {cellStyle, height, width, strokeColor } from "./meta";
+import {cellStyle } from "./meta";
 
-export default class Stage {
+export default class TableEntry {
     constructor(props) {
         this.columns = this.getColumns(props);
         this.dataSource = this.getDataSource(props);
 
-        this.$canvas = null;
         this.$root = props.$root;
         this.fixedHeader = props.fixedHeader;
 
         this.hasInit = false;
         this.table = null;
 
-        this.selectionManager = new SelectionManager(this);
-
-
+        // this.selectionManager = new SelectionManager(this);
         this.init();
     }
 
@@ -49,41 +37,7 @@ export default class Stage {
 
         this.hasInit = true;
 
-        this.initDom();
-        this.ctxInit();
         this.render();
-        this.eventInit();
-    }
-
-    initDom() {
-        const $canvas = document.createElement('canvas');
-        $canvas.width = width * PIXEL_RATIO;
-        $canvas.height = height * PIXEL_RATIO;
-        $canvas.style.width = `${width}px`;
-        $canvas.style.height = `${height}px`;
-        this.$canvas = $canvas;
-
-        this.$root.prepend(this.$canvas);
-    }
-
-    eventInit() {
-        new ClickHandler(this);
-        new DblClickHandler(this);
-        new ContextMenuHandler(this);
-        new MouseMoveHandler(this);
-        new MouseWheelHandler(this);
-        new TouchMoveHandler(this);
-    }
-
-    ctxInit() {
-        this.ctx = this.$canvas.getContext('2d', {
-            alpha: true,
-        });
-        this.ctx.setTransform(PIXEL_RATIO, 0, 0 , PIXEL_RATIO, 0, 0);
-        this.ctx.fillStyle = '#fff';
-        this.ctx.font = '14px';
-        this.ctx.textBaseline = 'middle';
-        this.ctx.strokeStyle = strokeColor;
     }
 
     get tableWidth() {
@@ -147,23 +101,6 @@ export default class Stage {
         });
     }
 
-    repaint() {
-        this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
-
-        this.renderer.paint();
-    }
-
-    reflow() {
-        this.layoutTree = this.domTree.doLayout();
-
-        // layout的时候把opacity继承、clipParent都计算好
-        this.layerTree = Layer.create(this.layoutTree, null);
-
-        this.renderer = new Render(this.ctx, this.layerTree);
-
-        this.repaint();
-    }
-
     render() {
         this.table = Table.create(
             this,
@@ -173,8 +110,7 @@ export default class Stage {
 
         this.domTree = Container.create(this, this.table);
 
-        console.info('domTree: ', this.domTree);
-
-        this.reflow();
+        this.stage = new Stage(this.domTree, this.$root);
+        this.stage.render();
     }
 }
