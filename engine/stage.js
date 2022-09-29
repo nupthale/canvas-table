@@ -86,8 +86,6 @@ export default class Stage {
 
         this.renderer = new Render(this.ctx, this.layerTree);
 
-        debugger;
-
         this.repaint();
     }
 }

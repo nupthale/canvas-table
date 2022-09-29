@@ -49,11 +49,6 @@ export default class Render {
 
         const me = this;
         this.paintRecords.forEach(node => {
-            if (node.isTextNode && node.text === 'address1') {
-                console.info('#isInView', node, me.ctx.canvas.width / PIXEL_RATIO, isInView(node, this.ctx));
-                debugger;
-            }
-
             if (isInView(node, me.ctx)) {
                 if (node.isTextNode) {
                     this.renderTextNode(node);
