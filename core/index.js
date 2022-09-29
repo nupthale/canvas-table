@@ -77,7 +77,7 @@ export default class Stage {
 
     ctxInit() {
         this.ctx = this.$canvas.getContext('2d', {
-            alpha: false,
+            alpha: true,
         });
         this.ctx.setTransform(PIXEL_RATIO, 0, 0 , PIXEL_RATIO, 0, 0);
         this.ctx.fillStyle = '#fff';
@@ -150,15 +150,16 @@ export default class Stage {
     repaint() {
         this.ctx.clearRect(0, 0, this.$canvas.width, this.$canvas.height);
 
-        const renderer = new Render(this.ctx, this.layerTree);
-
-        renderer.paint();
+        this.renderer.paint();
     }
 
     reflow() {
         this.layoutTree = this.domTree.doLayout();
 
+        // layout的时候把opacity继承、clipParent都计算好
         this.layerTree = Layer.create(this.layoutTree, null);
+
+        this.renderer = new Render(this.ctx, this.layerTree);
 
         this.repaint();
     }

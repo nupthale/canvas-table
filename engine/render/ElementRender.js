@@ -27,19 +27,19 @@ export default class ElementRender {
         const { top, right, bottom, left } = border;
 
         if (top) {
-            drawLine(this.ctx, startX, startY, startX + rectWidth, startY, top.color);
+            drawLine(this.ctx, startX, startY, startX + rectWidth, startY, top.color, top.width);
         }
 
         if (right) {
-            drawLine(this.ctx, startX + rectWidth, startY, startX + rectWidth, startY + rectHeight, right.color);
+            drawLine(this.ctx, startX + rectWidth, startY, startX + rectWidth, startY + rectHeight, right.color, right.width);
         }
 
         if (bottom) {
-            drawLine(this.ctx, startX, startY + rectHeight, startX + rectWidth, startY + rectHeight, bottom.color);
+            drawLine(this.ctx, startX, startY + rectHeight, startX + rectWidth, startY + rectHeight, bottom.color, bottom.width);
         }
 
         if (left) {
-            drawLine(this.ctx, startX, startY, startX, startY + rectHeight, left.color);
+            drawLine(this.ctx, startX, startY, startX, startY + rectHeight, left.color, left.width);
         }
     }
 

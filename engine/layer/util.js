@@ -13,13 +13,15 @@ export const shouldCreateContext = (node) => {
     return position !== 'static' && isNumber(zIndex);
 }
 
-export const dfs = (root, callback) => {
-    const shouldContinue = callback(root);
+export const dfs = (root, preCallback, postCallback) => {
+    const shouldContinue = preCallback(root);
 
     if (shouldContinue && root.children?.length) {
         root.children.forEach(child => {
-            dfs(child, callback);
+            dfs(child, preCallback, postCallback);
         })
     }
+
+    postCallback?.(root);
 }
 

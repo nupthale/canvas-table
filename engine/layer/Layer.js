@@ -16,6 +16,7 @@ export default class Layer {
         const layer = new Layer(rootNode, parentLayer, zIndex || 0);
 
         dfs(rootNode, (node) => {
+            // 分层
             if (node === rootNode) {
                 return true;
             }

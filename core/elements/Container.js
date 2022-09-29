@@ -1,6 +1,5 @@
 import Element from "../../engine/dom/Element";
 import {createElement} from "../../engine/utils/util";
-import {shadowRect} from "../../engine/utils/draw";
 import {containerPadding, getTableViewWidth, getTableViewHeight, width, height} from "../meta";
 
 import Scrollable from "../../engine/dom/Scrollable";
@@ -14,21 +13,50 @@ export default class Container extends Element {
               stage.repaint();
             },
             style: {
-                width: getTableViewWidth(),
-                height: getTableViewHeight(),
                 padding: [],
                 border: [],
             }
         }, [table]);
 
-        return createElement(Container, {
+        const container = createElement(Container, {
             style: {
                 width,
                 height,
-                border: [],
+                border: [{
+                    width: 10,
+                    color: 'red',
+                }, {
+                    width: 10,
+                    color: 'red',
+                }, {
+                    width: 10,
+                    color: 'red',
+                }, {
+                    width: 10,
+                    color: 'red',
+                }],
                 padding: [containerPadding, containerPadding, containerPadding, containerPadding],
             },
-        }, [scrollable])
+        }, [createElement(Element, {
+            style: {
+                boxShadow: [],
+                border: [{
+                    width: 10,
+                    color: 'blue',
+                }, {
+                    width: 10,
+                    color: 'blue',
+                }, {
+                    width: 10,
+                    color: 'blue',
+                }, {
+                    width: 10,
+                    color: 'blue',
+                }],
+            }
+        }, [scrollable])]);
+
+        return container;
     }
 
     constructor(props) {

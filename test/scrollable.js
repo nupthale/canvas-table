@@ -38,7 +38,7 @@ export default function Scrollable1() {
             scrollHeight: 1000,
             style: style.$div1,
             onScroll: () => {
-                stage.render();
+                stage.repaint();
             },
         }, [
             createElement(Element, {

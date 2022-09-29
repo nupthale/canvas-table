@@ -1,24 +1,24 @@
 export const getBorderWidth = (border = [], direction = 'horizontal') => {
     if (direction === 'horizontal') {
-        return border.left?.width || 0 + border.right?.width || 0;
+        return (border.left?.width || 0) + (border.right?.width || 0);
     } else {
-        return border.top?.width || 0 + border.bottom?.width || 0;
+        return (border.top?.width || 0) + (border.bottom?.width || 0);
     }
 }
 
 export const getPaddingWidth = (padding = [], direction = 'horizontal') => {
     if (direction === 'horizontal') {
-        return padding.left || 0 + padding.right || 0;
+        return (padding.left || 0) + (padding.right || 0);
     } else {
-        return padding.top || 0 + padding.bottom || 0;
+        return (padding.top || 0) + (padding.bottom || 0);
     }
 }
 
 export const getMarginWidth = (margin = [], direction = 'horizontal') => {
     if (direction === 'horizontal') {
-        return margin.left || 0 + margin.right || 0;
+        return (margin.left || 0) + (margin.right || 0);
     } else {
-        return margin.top || 0 + margin.bottom || 0;
+        return (margin.top || 0) + (margin.bottom || 0);
     }
 }
 

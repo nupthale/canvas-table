@@ -8,7 +8,7 @@ import TextRender from "./TextRender";
 
 import {shouldClipCtx} from "./util";
 
-
+// render尽量保持o(1)复杂度， 如果出现o(n)就会卡
 export default class Render {
     constructor(ctx, rootLayer) {
         this.ctx = ctx;
@@ -16,6 +16,25 @@ export default class Render {
 
         this.opacityNodes = [];
         this.overflowNodes = [];
+        this.scrollableNodes = [];
+
+        this.paintRecords = [];
+
+        this.init();
+    }
+
+    init() {
+        this.paintRecords = [];
+
+        dfs(this.rootLayer, (layer) => {
+            // 先渲染root, 再渲染nodes, 再渲染children
+            const nodes = layer.nodes || [];
+
+            this.paintRecords.push(layer.rootNode);
+            nodes.forEach(node => {
+               this.paintRecords.push(node);
+            });
+        });
     }
 
     paint() {
@@ -42,22 +61,21 @@ export default class Render {
         })
     }
 
-    makeClip(element) {
-        if (this.overflowNodes?.length) {
-            const crtOverflowNode = this.overflowNodes[this.overflowNodes.length - 1];
+    makeOpacity(element) {
+        const style = element.getComputedStyle();
 
-            if (!crtOverflowNode?.isChild(element)) {
-                this.ctx.restore();
-
-                this.overflowNodes.pop();
-            }
+        if (isNumber(style.opacity)) {
+            this.ctx.globalAlpha = style.opacity;
         }
+    }
 
-        if (shouldClipCtx(element)) {
-            const layout = element.getLayout();
-            const style = element.getComputedStyle();
+    makeClip(element) {
+        const overflowParent = element.style.overflowParent;
 
-            this.ctx.save();
+        if (overflowParent) {
+            const layout = overflowParent.getLayout();
+            const style = overflowParent.getComputedStyle();
+
             this.ctx.rect(
                 layout.x,
                 layout.y,
@@ -66,42 +84,37 @@ export default class Render {
             );
             this.ctx.clip();
 
-            this.overflowNodes.push(element);
-        }
-    }
 
-    makeOpacity(element) {
+            if (overflowParent.scrollLeft || overflowParent.scrollTop) {
+                console.info('translate', overflowParent.scrollLeft);
 
-        if (this.opacityNodes?.length) {
-            const crtOpacityNode = this.opacityNodes[this.opacityNodes.length - 1];
-
-            if (!crtOpacityNode?.isChild(element)) {
-                this.ctx.restore();
-
-                this.opacityNodes.pop();
+                this.ctx.translate(0 - overflowParent.scrollLeft, 0 - overflowParent.scrollTop);
             }
         }
-
-        const style = element.getComputedStyle();
-        if (isNumber(style.opacity) && style.opacity < 1) {
-            this.ctx.save();
-            this.ctx.globalAlpha = style.opacity;
-
-            this.opacityNodes.push(element);
-        }
     }
 
-    renderElement(element) {
-        this.makeClip(element);
 
+    renderElement(element) {
+        this.ctx.save();
+
+        this.makeClip(element);
         this.makeOpacity(element);
 
         const renderer = new ElementRender(this.ctx, element);
         renderer.render();
+
+        this.ctx.restore();
     }
 
     renderTextNode(node) {
+        this.ctx.save();
+
+        this.makeClip(node.parent);
+        this.makeOpacity(node.parent);
+
         const renderer = new TextRender(this.ctx, node);
         renderer.render();
+
+        this.ctx.restore();
     }
 }

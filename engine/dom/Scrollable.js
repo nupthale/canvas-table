@@ -35,6 +35,7 @@ export default class Scrollable extends Element {
     initEvent() {
         this.on('mousewheel', (e) => {
             e.stopPropagation();
+            debugger;
             this.scrollBy(e.deltaX, e.deltaY);
         });
     }
@@ -42,13 +43,13 @@ export default class Scrollable extends Element {
     scrollBy(deltaX, deltaY) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (this.scrollByX(deltaX)) {
-                this.doLayout();
+                // this.doLayout();
 
                 this.onScroll?.();
             }
         } else {
             if (this.scrollByY(deltaY)) {
-                this.doLayout();
+                // this.doLayout();
 
                 this.onScroll?.();
             }
@@ -56,6 +57,7 @@ export default class Scrollable extends Element {
     }
 
     scrollByX(deltaX) {
+        debugger;
         // 无需滚动
         if (this.scrollWidth <= this.width || deltaX === 0) {
             return false;

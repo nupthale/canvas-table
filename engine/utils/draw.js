@@ -1,14 +1,23 @@
+import {isNumber} from "lodash-es";
+
+
 export const drawLine = (
     ctx,
     startX,
     startY,
     endX,
     endY,
-    color
+    color,
+    width,
 ) => {
     if (color) {
         ctx.save();
         ctx.strokeStyle = color;
+    }
+
+    if (isNumber(width)) {
+        ctx.save();
+        ctx.lineWidth = width;
     }
 
     ctx.beginPath();
@@ -17,7 +26,7 @@ export const drawLine = (
     ctx.closePath();
     ctx.stroke();
 
-    if (color) {
+    if (color || isNumber(width)) {
         ctx.restore()
     }
 };
