@@ -37,37 +37,37 @@ export default class SelectedTBody extends TBody {
            return SelectedTRow.create(this, cols, rowIndex + 1);
         });
 
-        return createElement(SelectedTBody, {
+        return createElement(Element, {
             style: {
                 width: tableWidth,
                 height: dataSource.length * cellStyle.height,
                 padding: [0, 0, 0, 0],
                 border: [],
-                position: 'static',
+                position: 'relative',
             },
         }, [
-            // createElement(Element, {
-            //     style: {
-            //         position: 'sticky',
-            //     },
-            // }, [
-            //     ...fixedLeftTrs,
-            // ]),
-            // createElement(Element, {
-            //   style: {
-            //       position: 'sticky',
-            //       left: 50,
-            //       width: 100,
-            //       height: 100,
-            //       backgroundColor: '#ccc',
-            //   },
-            // }, []),
-            createElement(Element, {
+            createElement(SelectedTBody, {
                 style: {
+                    width: tableWidth,
+                    height: dataSource.length * cellStyle.height,
+                    padding: [0, 0, 0, 0],
+                    border: [],
                     position: 'static',
                 },
             }, [
                 ...trs,
+            ]),
+            createElement(SelectedTBody, {
+                style: {
+                    width: 200,
+                    height: dataSource.length * cellStyle.height,
+                    padding: [0, 0, 0, 0],
+                    border: [],
+                    position: 'sticky',
+                    backgroundColor: '#ccc',
+                },
+            }, [
+                ...fixedLeftTrs
             ]),
         ]);
     }

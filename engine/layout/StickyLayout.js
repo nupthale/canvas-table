@@ -20,6 +20,7 @@ export default class StickyLayout extends LayoutBase {
                 this.positionedParent = node;
                 break;
             }
+            node = node.parent;
         }
 
         return this.positionedParent;
@@ -33,7 +34,7 @@ export default class StickyLayout extends LayoutBase {
 
         // console.info(parent, parentLayout, parentScrollLeft);
 
-        console.info(elementStyle.left, parentX);
+        console.info(elementStyle.left, parentX, parentLayout);
 
         if (elementStyle.left && parentX < 0) {
             return elementStyle.left;

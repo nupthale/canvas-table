@@ -19,6 +19,7 @@ export default class AbsoluteLayout extends LayoutBase {
                 this.positionedParent = node;
                 break;
             }
+            node = node.parent;
         }
 
         return this.positionedParent;

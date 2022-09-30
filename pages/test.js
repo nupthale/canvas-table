@@ -19,12 +19,12 @@ export default function Home() {
             <main className={styles.main}>
                 <div className={styles.demo}>
                     <h1 className={styles.title}>ZIndex</h1>
-                    <ZIndex1 />
+                    {/*<ZIndex1 />*/}
                 </div>
 
                 <div className={styles.demo}>
                     <h1 className={styles.title}>Absolute</h1>
-                    <Absolute1 />
+                    {/*<Absolute1 />*/}
                 </div>
 
                 <div className={styles.demo}>
@@ -34,7 +34,7 @@ export default function Home() {
 
                 <div className={styles.demo}>
                     <h1 className={styles.title}>Animation</h1>
-                    <AnimationTest />
+                    {/*<AnimationTest />*/}
                 </div>
             </main>
         </div>
