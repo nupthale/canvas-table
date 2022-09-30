@@ -5,6 +5,7 @@ import Tag from "./Tag";
 export default class SelectedTCol extends TCol {
     static create(stage, props) {
         const { commonProps, columns } = stage;
+
         const column = columns[props.colIndex];
 
         let children = this.createLayerText(commonProps, props.text, column.dataIndex === 'rowIndex' ? 'center' : 'left');

@@ -67,7 +67,7 @@ export default function AnimationTest() {
                 new Animation({
                     startValue: 0.3,
                     endValue: 1,
-                    duration: 300,
+                    duration: 3000,
                     onChange(val) {
                         console.info('#animation', val);
                         //

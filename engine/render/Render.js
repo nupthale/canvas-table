@@ -58,7 +58,7 @@ export default class Render {
             }
         });
 
-        console.info('#count', count);
+        // console.info('#count', count);
 
         this._isPainting = false;
     }

@@ -12,8 +12,6 @@ import MouseWheelHandler from "./event/MouseWheelHandler";
 import TouchMoveHandler from "./event/TouchMoveHandler";
 
 import {height, width, strokeColor } from "../core/meta";
-import Table from "../core/elements/Table";
-import Container from "../core/elements/Container";
 
 export default class Stage {
     constructor(root, mountNode) {

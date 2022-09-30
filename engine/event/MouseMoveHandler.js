@@ -39,7 +39,7 @@ export default class MouseMoveHandler {
 
         this._handler(newEvt, 'mouseenter');
 
-        console.info('####newEvt', newEvt.path);
+        // console.info('####newEvt', newEvt.path);
 
         this.lastMouseEnterEvt = layerEvent;
     }
@@ -83,7 +83,7 @@ export default class MouseMoveHandler {
             y: this.eventY,
             stage: this.stage,
         });
-        console.info('#layerEvent', layerEvent.path);
+        // console.info('#layerEvent', layerEvent.path);
 
         this.mouseenter(layerEvent);
         this.mouseleave(layerEvent);
